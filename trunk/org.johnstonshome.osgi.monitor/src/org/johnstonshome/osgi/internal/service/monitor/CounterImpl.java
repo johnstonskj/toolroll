@@ -61,4 +61,9 @@ class CounterImpl extends MonitorImpl implements Counter {
 		this.value = 0;
 		signalUpdate();
 	}
+
+	@Override
+	public String toString() {
+		return String.format("{Counter %d}", this.get());
+	}
 }

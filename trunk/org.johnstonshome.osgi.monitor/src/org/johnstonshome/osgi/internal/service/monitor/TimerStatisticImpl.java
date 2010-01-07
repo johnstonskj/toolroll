@@ -8,6 +8,9 @@
  */
 package org.johnstonshome.osgi.internal.service.monitor;
 
+import java.math.BigInteger;
+
+import org.johnstonshome.osgi.service.monitor.Duration;
 import org.johnstonshome.osgi.service.monitor.TimerResolution;
 import org.johnstonshome.osgi.service.monitor.TimerStatistic;
 
@@ -16,8 +19,14 @@ import org.johnstonshome.osgi.service.monitor.TimerStatistic;
  * @author Simon Johnston
  *
  */
-public class TimerStatisticImpl extends StatisticImpl implements TimerStatistic {
+public class TimerStatisticImpl extends MonitorImpl implements TimerStatistic {
 
+	private BigInteger cumulative = BigInteger.ZERO;
+	private long count = 0;
+	private long max = 0;
+	private long min = 0;
+	private double avg = 0;
+	
 	private long startTime = 0;
 	private long resolutionOffset = 1;
 	private TimerResolution resolution = TimerResolution.NANO_SECONDS;
@@ -42,6 +51,22 @@ public class TimerStatisticImpl extends StatisticImpl implements TimerStatistic 
 		}
 	}
 	
+	private synchronized void addValue(long value) {
+		this.count++;
+		this.cumulative = this.cumulative.add(BigInteger.valueOf(value));
+		if (this.count == 1) {
+			this.min = value;
+			this.max = value;
+			this.avg = value;
+		} else {
+			this.min = Math.min(this.min, value);
+			this.max = Math.max(this.max, value);
+			this.avg = cumulative.divide(BigInteger.valueOf(this.count)).doubleValue();
+		}
+		signalUpdate();
+	}
+
+
 	public TimerResolution getResolution() {
 		return this.resolution;
 	}
@@ -59,5 +84,45 @@ public class TimerStatisticImpl extends StatisticImpl implements TimerStatistic 
 			this.resolutionOffset = 1;
 			break;
 		}
+	}
+	
+	@Override
+	public Duration getAverage() {
+		return new DurationImpl((long)this.avg);
+	}
+
+	@Override
+	public long getCount() {
+		return this.count;
+	}
+
+	@Override
+	public Duration getMax() {
+		return new DurationImpl(this.max);
+	}
+
+	@Override
+	public Duration getMin() {
+		return new DurationImpl(this.min);
+	}
+
+	@Override
+	public synchronized void reset() {
+		this.cumulative = BigInteger.ZERO;
+		this.count = 0;
+		this.min = 0;
+		this.max = 0;
+		this.avg = 0.0;
+		signalUpdate();
+	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"{TimerStatistic count:%d min:%s max:%s avg:%s}", 
+				this.getCount(),
+				this.getMin().toString(),
+				this.getMax().toString(),
+				this.getAverage().toString());
 	}
 }

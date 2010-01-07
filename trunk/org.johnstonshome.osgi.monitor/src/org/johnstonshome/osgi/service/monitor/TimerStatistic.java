@@ -12,7 +12,8 @@ package org.johnstonshome.osgi.service.monitor;
  * Similar to the {@link Statistic} monitor this monitor tracks a set of duration
  * values and records statistics for those values. The duration values can be 
  * recorded in different resolutions, although some platforms may not provide
- * all resolutions.
+ * all resolutions. Timer values use the {@link Duration} interface to handle
+ * actual duration values.
  * 
  * @author Simon Johnston
  *
@@ -47,21 +48,21 @@ public interface TimerStatistic extends Monitor {
 	 * 
 	 * @return the minimum duration recorded in the set.
 	 */
-	public long getMin();
+	public Duration getMin();
 
 	/**
 	 * Returns the maximum value of all those added to the set.
 	 * 
 	 * @return the maximum duration recorded in the set.
 	 */
-	public long getMax();
+	public Duration getMax();
 
 	/**
 	 * Returns the average of all values added to the set.
 	 * 
 	 * @return the average of durations recorded in the set.
 	 */
-	public double getAverage();
+	public Duration getAverage();
 	
 	/**
 	 * Return the current resolution of the timer used to record
