@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component 
+  xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
+  name="Basic Logging Service"
+  immediate="true">
+
+  <implementation class="org.johnstonshome.osgi.internal.service.log.LogServiceImpl"/>
+
+  <property name="memory.log.limit" value="100"/>
+  <property name="file.log.enabled" value="false"/>
+  <property name="console.log.enabled" value="true"/>
+  
+  <service>
+    <provide interface="org.osgi.service.log.LogService"/>
+    <provide interface="org.osgi.service.log.LogReaderService"/>
+  </service>
+  
+</scr:component>
