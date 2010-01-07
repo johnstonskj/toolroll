@@ -10,7 +10,7 @@ A monitor is a named value that provides insight into the behavior of a bundle o
 
  * Counter - discrete count of actions such as page hits, size of cache, etc.
  * Statistic - maintains a value over time providing min, max and average values.
- * TimerStatistic - similar to a statistic but instead of dealing with numeric values it deals in durations.
+ * Timer Statistic - similar to a statistic but instead of dealing with numeric values it deals in durations.
 
 The bundle provides:
 
