@@ -1,0 +1,9 @@
+#summary Provides a simple management monitoring capability.
+
+= Introduction =
+
+This service can be used to add _monitors_ to bundles and services to enable remote access to counters and statistics for services.
+
+= Details =
+
+TBD
