@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.johnstonshome.osgi.monitor" default="deploy" basedir=".">
+
+	<property name="version" value="1.0.0" />
+		
+    <property name="bundle.src" location="src" />
+    <property name="bundle.build" location="bin" />
+    <property name="bundle.dist" location="dist" />
+	<property name="osgi.runtime" location="../org.osgi.runtime" />
+    <property name="osgi.deploy" location="${osgi.runtime}/bundles" />
+
+    <path id="classpath.buildtime">
+        <pathelement location="${osgi.runtime}/org.eclipse.osgi_3.5.1.R35x_v20090827.jar" />
+        <pathelement location="${osgi.runtime}/equinox/org.eclipse.osgi.services_3.2.0.v20090520-1800.jar" />
+        <pathelement location="${osgi.runtime}/equinox/javax.servlet_2.5.0.v200806031605.jar" />
+    </path>
+
+    <target name="init" depends="clean">
+    	<tstamp/>
+    	<!--
+        <property name="bundlename" value="${antproject.name}-${version}_v${DSTAMP}.jar"/>
+        -->
+        <property name="bundlename" value="${ant.project.name}-${version}.jar"/>
+        <mkdir dir="${bundle.build}" />
+        <mkdir dir="${bundle.dist}" />
+    </target>
+
+    <target name="compile" depends="init" description="compile the source ">
+        <javac srcdir="${bundle.src}" destdir="${bundle.build}" classpathref="classpath.buildtime" />
+    </target>
+	
+	<target name="copy" description="copy non-Java files to build">
+        <copy todir="${bundle.build}" overwrite="yes">
+			<fileset dir="src" includes="**/*.properties"/>
+        </copy>
+        <copy todir="${bundle.build}/OSGI-INF" overwrite="yes">
+			<fileset dir="OSGI-INF"/>
+        </copy>
+	</target>
+
+    <target name="dist" depends="compile,copy" description="generate the distribution">
+        <jar jarfile="${bundle.dist}/${bundlename}" basedir="${bundle.build}" manifest="META-INF/MANIFEST.MF">
+            <manifest>
+                <attribute name="Bundle-Name" value="${ant.project.name}"/>
+                <attribute name="Bundle-Version" value="${version}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="deploy" depends="dist">
+        <copy file="${bundle.dist}/${bundlename}" todir="${osgi.deploy}" overwrite="true"/>
+    </target>
+
+    <target name="clean" description="clean up">
+        <delete dir="${bundle.build}" />
+        <delete dir="${bundle.dist}" />
+    	<delete file="${osgi.deploy}/${bundlename}" />
+    </target>
+</project>
