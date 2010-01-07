@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component 
+  xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
+  name="Monitor Service">
+
+  <implementation class="org.johnstonshome.osgi.internal.service.monitor.MonitorServiceImpl"/>
+
+  <property name="alias" value="/monitor"/>
+  
+  <service>
+    <provide interface="org.johnstonshome.osgi.service.monitor.MonitorService"/>
+  </service>
+  
+  <reference name="log"
+        	 interface="org.osgi.service.log.LogService"
+        	 cardinality="1..1" 
+        	 policy="static"
+         	 bind="bindLog"
+         	 unbind="unbindLog"
+  />
+
+  <reference name="http"
+        	 interface="org.osgi.service.http.HttpService"
+        	 cardinality="0..1" 
+        	 policy="static"
+         	 bind="bindHttp"
+         	 unbind="unbindHttp"
+  />
+
+</scr:component>

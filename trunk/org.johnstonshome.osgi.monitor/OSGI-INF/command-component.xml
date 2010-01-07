@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component 
+  xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" 
+  name="Monitor Command Provider">
+
+  <implementation class="org.johnstonshome.osgi.internal.service.monitor.MonitorCommandProvider"/>
+
+  <property name="alias" value="/monitor"/>
+  
+  <service>
+    <provide interface="org.eclipse.osgi.framework.console.CommandProvider"/>
+  </service>
+  
+  <reference name="monitor"
+        	 interface="org.johnstonshome.osgi.service.monitor.MonitorService"
+        	 cardinality="1..1" 
+        	 policy="static"
+         	 bind="bindMonitor"
+         	 unbind="unbindMonitor"
+  />
+
+</scr:component>

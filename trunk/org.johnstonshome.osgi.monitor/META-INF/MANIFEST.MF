@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSGi Monitor Service Bundle
+Bundle-SymbolicName: org.johnstonshome.osgi.monitor;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Simon Johnston
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: javax.servlet;version="2.4.0",
+ javax.servlet.http;version="2.4.0",
+ org.osgi.framework;version="1.4.0",
+ org.osgi.service.component;version="1.0.0",
+ org.osgi.service.http;version="1.2.0",
+ org.osgi.service.log;version="1.3.0"
+Export-Package: org.johnstonshome.osgi.service.monitor;uses:="org.osgi.framework"
+Service-Component: OSGI-INF/*.xml
+Require-Bundle: org.eclipse.osgi

@@ -1,0 +1,128 @@
+<html>
+<!-- 
+ * Licensed Materials - Property of Simon Johnston (simon@johnstonshome.org)
+ * (c) Copyright Simon Johnston 2009. All rights reserved.
+ * 
+ * For full license details, see the file LICENSE included in the
+ * distribution of this code.
+ * -->
+<head/>
+<body>
+
+<p>
+Provides the API for constructing and manipulating Monitors. The API includes 
+a service for creating new monitor instances and a listener service to allow
+clients to track monitor lifecycle events. The main service, 
+{@link org.johnstonshome.osgi.service.monitor.MonitorService}, can create a 
+number of specific monitor types that a client can use to track counters and 
+statistics for their service or bundle function. The listener service, 
+{@link org.johnstonshome.osgi.service.monitor.MonitorListenerService}, can be
+used by clients to listen for monitor creation and removal events and even
+the updates from individual monitors.
+</p>
+
+<p>
+The purpose of the monitor package is to provide monitors that allow for the
+instrumentation of OSGi services and bundles and which can then be integrated
+into administration consoles and so forth (such as the Apache Felix Web 
+Management Console).  
+</p>
+
+<h2>Example</h2>
+
+<p>
+The example below shows the basic steps of creating monitors (in this case during
+service activation), removing them and using them in a processing method. The 
+<code>pageHits</code> counter is simply incremented on each successful request
+and the <code>contentLength</code> manages the statistics for the size of data 
+returned by each response. Finally the <code>responseTime</code> timer logs the 
+minimum, maximum and average time taken to process each response.
+</p>
+
+<pre>
+    private Counter pageHits;
+    private Statistic contentLength;
+    private TimerStatistic responseTime;
+    
+    protected void activate() {
+        MonitorService monitorService;
+        /* retrieve the monitor service */
+        this.pageHits = monitor.createCounter(
+                    null /* service reference */,
+                    this.getClass().getSimpleName(), 
+                    "hits",
+                    false /* signal updates */);
+        this.contentLength = monitor.createStatistic(
+                    null /* service reference */,
+                    this.getClass().getSimpleName(), 
+                    "size",
+                    false /* signal updates */);
+        this.responseTime = monitor.createTimerStatistic(
+                    null /* service reference */,
+                    this.getClass().getSimpleName(), 
+                    "time",
+                    false /* signal updates */);
+    }
+    
+    protected void deactivate() {
+        MonitorService monitorService;
+        /* retrieve the monitor service */
+        monitor.removeMonitor(this.pageHits);
+        monitor.removeMonitor(this.contentLength);
+        monitor.removeMonitor(this.responseTime);
+    }
+    
+    protected void processRequest() {
+        this.responseTime.startTimer();
+        try {
+            /* do processing */
+            this.responseTime.stopTimer();
+            this.contentLength.addValue(contentLength);
+            this.pageHits.increment();
+        } catch (Exception e) {
+            this.responseTime.abortTimer();
+        }
+    }
+</pre>
+
+<h2>What the <code>monitor</code> Package Contains</h2>
+
+<ul>
+  <li>Services:
+    <ul>
+      <li>{@link org.johnstonshome.osgi.service.monitor.MonitorService} -- 
+          The service used to create and remove monitor instances as well as to
+          enumerate existing monitors.</li>
+      <li>{@link org.johnstonshome.osgi.service.monitor.MonitorListenerService} -- 
+          The service used to register and remove listeners (which implement the 
+          {@link org.johnstonshome.osgi.service.monitor.MonitorListener} 
+          interface).</li>
+    </ul>
+  </li>
+  <li>Monitor Types:
+    <ul>
+      <li>{@link org.johnstonshome.osgi.service.monitor.Counter} -- 
+          A monitor that is used to maintain a count of events, these might be
+          the number of instances of a service in use, the number of hits on
+          a page and so forth. A counter can be set, reset, incremented and 
+          decremented.</li>
+      <li>{@link org.johnstonshome.osgi.service.monitor.Statistic} -- 
+          A monitor that is used to gather statistical data on a periodic
+          value. For example the value may be the size of data returned by a 
+          service call and the monitor tracks the count, maximum, minimum and 
+          average of the data over time.</li>
+      <li>{@link org.johnstonshome.osgi.service.monitor.TimerStatistic} --
+          A monitor that extends the statistic notion for timer values. In 
+          truth this is more of a helper extension to the 
+          {@link org.johnstonshome.osgi.service.monitor.Statistic} than a
+          distinct monitor type.
+    </ul>
+  </li>
+</ul>
+
+<p>
+@since 1.0.0
+</p>
+
+</body>
+</html>  
