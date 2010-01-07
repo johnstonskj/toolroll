@@ -29,9 +29,6 @@
     </target>
 	
 	<target name="copy" description="copy non-Java files to build">
-        <copy todir="${bundle.build}" overwrite="yes">
-			<fileset dir="src" includes="**/*.properties"/>
-        </copy>
         <copy todir="${bundle.build}/OSGI-INF" overwrite="yes">
 			<fileset dir="OSGI-INF"/>
         </copy>
