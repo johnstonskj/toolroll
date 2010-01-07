@@ -85,13 +85,4 @@ public abstract class MonitorImpl implements Monitor {
 			listener.monitorUpdated(this);
 		}
 	}
-	
-	@Override
-	public String toString() {
-		return String.format(
-				"{%s %s:%s}",
-				this.getClass().getSimpleName(),
-				this.getGroup(),
-				this.getLabel());
-	}
 }

@@ -14,7 +14,7 @@ public class MonitorCommandProvider implements CommandProvider {
 	
 	public void _monitor(CommandInterpreter ci) throws Exception {
 		String group = ci.nextArgument();
-		System.out.println("Group\t\tName\t\tValues");
+		output("Group", "Name", "Value");
 		if (group == null) {
 			Set<String> groupNames = this.monitorService.getMonitorGroups();
 			for (String groupName : groupNames) {
@@ -28,12 +28,19 @@ public class MonitorCommandProvider implements CommandProvider {
 	private void enumGroup(String groupName) {
 		Collection<Monitor> monitors = this.monitorService.getMonitorsForGroup(groupName);
 		for (Monitor monitor : monitors) {
-			System.out.println(
-					String.format("%s\t\t%s\t\t%s",
-							monitor.getGroup(),
-							monitor.getLabel(),
-							monitor.toString()));
+			output(monitor.getGroup(),
+					monitor.getLabel(),
+					monitor.toString());
 		}
+	}
+	
+	private void output(String g, String n, String v) {
+		System.out.println(
+				String.format(
+						"%-28s | %-28s | %s", 
+						g.length() > 28 ? g.substring(0, 28) : g, 
+						n.length() > 28 ? n.substring(0, 28) : n, 
+						v));
 	}
 	
 	@Override

@@ -73,4 +73,14 @@ class StatisticImpl extends MonitorImpl implements Statistic {
 		this.avg = 0.0;
 		signalUpdate();
 	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"{Statistic count:%d min:%d max:%d avg:%f}", 
+				this.getCount(),
+				this.getMin(),
+				this.getMax(),
+				this.getAverage());
+	}
 }
