@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSGi Log over Apache Commons Bundle
+Bundle-SymbolicName: org.johnstonshome.osgi.log;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: Simon Johnston
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.osgi.framework;version="1.4.0",
+ org.osgi.service.component;version="1.0.0",
+ org.osgi.service.log;version="1.3.0"
+Service-Component: OSGI-INF/*.xml
