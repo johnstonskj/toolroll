@@ -16,7 +16,7 @@ public class DurationImpl implements Duration {
 		long _fractional = 0;
 		
 		_fractional = duration % 1000000;
-		_seconds = duration / 100000;
+		_seconds = duration / 1000000;
 		if (_seconds >= 60) {
 			_minutes = _seconds / 60;
 			_seconds = _seconds % 60;
