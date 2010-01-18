@@ -1,3 +1,11 @@
+/*
+ * Licensed Materials - Property of Simon Johnston (simon@johnstonshome.org)
+ * (c) Copyright Simon Johnston 2009-2010. All rights reserved.
+ *
+ * For full license details, see the file LICENSE inncluded in the
+ * distribution of this code.
+ *
+ */
 package org.johnstonshome.osgi.internal.service.log;
 
 import java.util.HashSet;
@@ -12,6 +20,14 @@ import org.osgi.service.log.LogEntry;
 import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogService;
 
+/**
+ * Implementation class, this class implements the OSGi
+ * {@org.osgi.service.log.LogListener} interface and logs all received
+ * {@@org.osgi.service.log.LogEntry} instances to the JDK logger.
+ * 
+ * @author Simon Johnston (simon@johnstonshome.org)
+ *
+ */
 public class LogListenerJdk14 implements LogListener {
 	
 	private static final String DEFAULT_LOGGER = LogService.class.getPackage().getName();

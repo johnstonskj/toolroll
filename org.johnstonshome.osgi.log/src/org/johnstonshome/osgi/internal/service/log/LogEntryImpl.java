@@ -1,9 +1,24 @@
+/*
+ * Licensed Materials - Property of Simon Johnston (simon@johnstonshome.org)
+ * (c) Copyright Simon Johnston 2009-2010. All rights reserved.
+ *
+ * For full license details, see the file LICENSE inncluded in the
+ * distribution of this code.
+ *
+ */
 package org.johnstonshome.osgi.internal.service.log;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.log.LogEntry;
 
+/**
+ * Implementation of the OSGi {@link org.osgi.service.log.LogEntry} interface
+ * to log events.
+ * 
+ * @author Simon Johnston (simon@johnstonshome.org)
+ *
+ */
 public class LogEntryImpl implements LogEntry {
 
 	private LogEntryLocation location = null;
