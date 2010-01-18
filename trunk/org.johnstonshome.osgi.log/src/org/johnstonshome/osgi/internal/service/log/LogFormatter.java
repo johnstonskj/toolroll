@@ -1,3 +1,11 @@
+/*
+ * Licensed Materials - Property of Simon Johnston (simon@johnstonshome.org)
+ * (c) Copyright Simon Johnston 2009-2010. All rights reserved.
+ *
+ * For full license details, see the file LICENSE inncluded in the
+ * distribution of this code.
+ *
+ */
 package org.johnstonshome.osgi.internal.service.log;
 
 import java.text.MessageFormat;
@@ -5,6 +13,12 @@ import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
+/**
+ * Provides a JDK log formatter to produce a more compact log string.
+ * 
+ * @author Simon Johnston (simon@johnstonshome.org)
+ *
+ */
 public class LogFormatter extends Formatter {
 		 
 	private static final MessageFormat messageFormat = 

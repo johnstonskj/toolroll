@@ -1,3 +1,11 @@
+/*
+ * Licensed Materials - Property of Simon Johnston (simon@johnstonshome.org)
+ * (c) Copyright Simon Johnston 2009-2010. All rights reserved.
+ *
+ * For full license details, see the file LICENSE inncluded in the
+ * distribution of this code.
+ *
+ */
 package org.johnstonshome.osgi.internal.service.log;
 
 import java.util.ArrayList;
@@ -13,6 +21,15 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.service.log.LogService;
 
+/**
+ * Implementation of the standard OSGi {@link org.osgi.service.log.LogService}
+ * that logs to the Java library logging API. It also provides an implementation
+ * of the {@link org.osgi.service.log.LogReaderService} to read the current
+ * log and receive log events.
+ * 
+ * @author Simon Johnston (simon@johnstonshome.org)
+ *
+ */
 public class LogServiceImpl implements LogService, LogReaderService {
 
 	public static final String PROP_MEMORY_LOG_LIMIT = "memory.log.limit";
