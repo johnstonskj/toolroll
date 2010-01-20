@@ -14,8 +14,8 @@ import org.johnstonshome.osgi.service.monitor.TimerStatistic;
 public class MonitorCommandProvider implements CommandProvider {
 
 	private static final int    FORMAT_LIMIT = 20;
-	private static final String FORMAT_HEADER = "%-20s | %-20s | %6s | %10s | %10s | %10s"; //$NON-NLS-1$
-	private static final String FORMAT_LINE   = "%-20s | %-20s | %6d | %10s | %10s | %10s"; //$NON-NLS-1$
+	private static final String FORMAT_HEADER = "%-20s | %-20s | %-6s | %-10s | %-10s | %-10s"; //$NON-NLS-1$
+	private static final String FORMAT_LINE   = "%-20s | %-20s | %6d | %-10s | %-10s | %-10s"; //$NON-NLS-1$
 	
 	private static final String COL_GROUP = Messages.getString("MonitorCommandProvider.output.column.group"); //$NON-NLS-1$
 	private static final String COL_NAME = Messages.getString("MonitorCommandProvider.output.column.name"); //$NON-NLS-1$
