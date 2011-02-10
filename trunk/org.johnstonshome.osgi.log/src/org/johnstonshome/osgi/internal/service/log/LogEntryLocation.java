@@ -38,18 +38,18 @@ public class LogEntryLocation {
 	}
 
 	public String getClassName() {
-		return className;
+		return this.className;
 	}
 
 	public String getMethodName() {
-		return methodName;
+		return this.methodName;
 	}
 
 	public String getFileName() {
-		return fileName;
+		return this.fileName;
 	}
 
 	public int getLineNumber() {
-		return lineNumber;
+		return this.lineNumber;
 	}
 }
