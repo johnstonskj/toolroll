@@ -39,7 +39,7 @@ class StatisticImpl extends MonitorImpl implements Statistic {
 		} else {
 			this.min = Math.min(this.min, value);
 			this.max = Math.max(this.max, value);
-			this.avg = cumulative.divide(BigInteger.valueOf(this.count)).doubleValue();
+			this.avg = this.cumulative.divide(BigInteger.valueOf(this.count)).doubleValue();
 		}
 		signalUpdate();
 	}
