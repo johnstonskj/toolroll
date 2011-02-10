@@ -60,36 +60,36 @@ public class MonitorServiceImpl implements MonitorService {
 		this.listener = new MonitorListenerServiceImpl();
 		this.listenerRegistration = context.getBundleContext().registerService(
 				MonitorListenerServiceImpl.class.getName(), 
-				listener, 
+				this.listener, 
 				properties);
 		
 		/*
 		 * If possible, register the monitor JSON Servlet.
 		 */
 		this.httpAlias = (String)context.getProperties().get(PROP_SERVLET_ALIAS);
-		if (httpService != null) {
+		if (this.httpService != null) {
 	        try {
-				httpService.registerServlet(
-						httpAlias,
+	        	this.httpService.registerServlet(
+	        			this.httpAlias,
 						new MonitorServlet(this),
 						null, /* init params */
 						null  /* HTTP context */);
 			} catch (Exception e) {
-				log.log(LogService.LOG_WARNING, 
+				this.log.log(LogService.LOG_WARNING, 
 						String.format("Could not register servlet %s with alias %s", 
 								MonitorServlet.class.getName(),
-								httpAlias),
+								this.httpAlias),
 						e);
 			}
 		}
 		else {
-			log.log(LogService.LOG_DEBUG, "No HttpService, no log Servlet registered.");
+			this.log.log(LogService.LOG_DEBUG, "No HttpService, no log Servlet registered.");
 		}
 	}
 	
 	protected void deactivate(ComponentContext context) {
-		if (httpService != null) {
-			httpService.unregister(this.httpAlias);
+		if (this.httpService != null) {
+			this.httpService.unregister(this.httpAlias);
 		}
 		this.listenerRegistration.unregister();
 		this.listener.close();
@@ -137,24 +137,24 @@ public class MonitorServiceImpl implements MonitorService {
 		if (this.monitors == null) {
 			return null;
 		}
-		log.log(LogService.LOG_DEBUG, 
+		this.log.log(LogService.LOG_DEBUG, 
 				String.format("Adding monitor group: %s, name: %s", group, name));
 		MonitorImpl monitor = null;
 		try {
 			monitor = (MonitorImpl) clazz.newInstance();
 		} catch (Exception e) {
-			log.log(LogService.LOG_ERROR, "Could not instantiate monitor.", e);
+			this.log.log(LogService.LOG_ERROR, "Could not instantiate monitor.", e);
 			return null;
 		}
 		monitor.setServiceReference(sr);
 		monitor.setGroup(group);
 		monitor.setName(name);
-		monitor.setListener(signalling ? listener : null);
-		if (!monitors.containsKey(group)) {
-			monitors.put(group, new HashMap<String, Monitor>());
+		monitor.setListener(signalling ? this.listener : null);
+		if (!this.monitors.containsKey(group)) {
+			this.monitors.put(group, new HashMap<String, Monitor>());
 		}
-		monitors.get(group).put(name, monitor);
-		listener.monitorCreated(monitor);
+		this.monitors.get(group).put(name, monitor);
+		this.listener.monitorCreated(monitor);
 		return monitor;
 	}
 	
@@ -166,15 +166,15 @@ public class MonitorServiceImpl implements MonitorService {
 		if (this.monitors == null) {
 			return;
 		}
-		log.log(LogService.LOG_DEBUG, 
+		this.log.log(LogService.LOG_DEBUG, 
 				String.format("Removing monitor group: %s, name: %s", 
 						monitor.getGroup(), 
 						monitor.getName()));
-		Map<String, Monitor> group = monitors.get(monitor.getGroup());
+		Map<String, Monitor> group = this.monitors.get(monitor.getGroup());
 		group.remove(monitor.getName());
-		listener.monitorRemoved(monitor);
+		this.listener.monitorRemoved(monitor);
 		if (group.size() == 0) {
-			monitors.remove(monitor.getGroup());
+			this.monitors.remove(monitor.getGroup());
 		}
 	}
 
@@ -183,7 +183,7 @@ public class MonitorServiceImpl implements MonitorService {
 		if (this.monitors == null) {
 			return null;
 		}
-		return Collections.unmodifiableSet(monitors.keySet());
+		return Collections.unmodifiableSet(this.monitors.keySet());
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class MonitorServiceImpl implements MonitorService {
 		if (this.monitors == null) {
 			return null;
 		}
-		return Collections.unmodifiableCollection(monitors.get(group).values());
+		return Collections.unmodifiableCollection(this.monitors.get(group).values());
 	}
 
 	/*

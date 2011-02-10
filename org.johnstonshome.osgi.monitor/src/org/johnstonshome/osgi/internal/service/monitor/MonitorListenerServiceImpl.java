@@ -30,8 +30,8 @@ public class MonitorListenerServiceImpl implements MonitorListenerService, Monit
 		if (listener == null) {
 			throw new IllegalArgumentException();
 		}
-		if (!listeners.contains(listener)) {
-			listeners.add(listener);
+		if (!this.listeners.contains(listener)) {
+			this.listeners.add(listener);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class MonitorListenerServiceImpl implements MonitorListenerService, Monit
 		if (listener == null) {
 			throw new IllegalArgumentException();
 		}
-		listeners.remove(listener);
+		this.listeners.remove(listener);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class MonitorListenerServiceImpl implements MonitorListenerService, Monit
 		if (monitor == null) {
 			throw new IllegalArgumentException();
 		}
-		for (MonitorListener listener : listeners) {
+		for (MonitorListener listener : this.listeners) {
 			listener.monitorCreated(monitor);
 		}
 	}
@@ -58,7 +58,7 @@ public class MonitorListenerServiceImpl implements MonitorListenerService, Monit
 		if (monitor == null) {
 			throw new IllegalArgumentException();
 		}
-		for (MonitorListener listener : listeners) {
+		for (MonitorListener listener : this.listeners) {
 			listener.monitorUpdated(monitor);
 		}
 	}
@@ -71,16 +71,16 @@ public class MonitorListenerServiceImpl implements MonitorListenerService, Monit
 		if (monitor instanceof MonitorImpl) {
 			((MonitorImpl)monitor).setListener(null);
 		}
-		for (MonitorListener listener : listeners) {
+		for (MonitorListener listener : this.listeners) {
 			listener.monitorRemoved(monitor);
 		}
 	}
 	
 	public final int getListenerCount() {
-		return listeners.size();
+		return this.listeners.size();
 	}
 	
 	public void close() {
-		listeners.clear();
+		this.listeners.clear();
 	}
 }

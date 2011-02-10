@@ -81,8 +81,8 @@ public abstract class MonitorImpl implements Monitor {
 	public abstract void reset();
 
 	public void signalUpdate() {
-		if (listener != null) {
-			listener.monitorUpdated(this);
+		if (this.listener != null) {
+			this.listener.monitorUpdated(this);
 		}
 	}
 }

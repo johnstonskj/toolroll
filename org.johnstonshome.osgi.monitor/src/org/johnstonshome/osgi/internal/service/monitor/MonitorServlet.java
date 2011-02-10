@@ -45,12 +45,12 @@ class MonitorServlet extends HttpServlet {
 		PrintWriter output = resp.getWriter();
 		output.println("{");
         output.println("    groups: [");
-        for (Iterator<String> groups = monitorService.getMonitorGroups().iterator(); groups.hasNext();) {
+        for (Iterator<String> groups = this.monitorService.getMonitorGroups().iterator(); groups.hasNext();) {
 			String group = groups.next();
             output.println("        {");
             output.println("            group: \"" + group + "\",");
             output.println("            monitors: [");
-            for (Iterator<Monitor> monitors = monitorService.getMonitorsForGroup(group).iterator(); monitors.hasNext();) {
+            for (Iterator<Monitor> monitors = this.monitorService.getMonitorsForGroup(group).iterator(); monitors.hasNext();) {
             	Monitor monitor = monitors.next();
                 output.println("                {");
                 if (monitor.getServiceReference() != null) {
