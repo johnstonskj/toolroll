@@ -59,10 +59,10 @@ public class LogServiceImpl implements LogService, LogReaderService {
 	}
 
 	private synchronized void logEntry(LogEntry entry) {
-		if (memoryLog.size() == memoryLogLimit) {
-			memoryLog.removeLast();
+		if (this.memoryLog.size() == this.memoryLogLimit) {
+			this.memoryLog.removeLast();
 		}
-		memoryLog.addFirst(entry);
+		this.memoryLog.addFirst(entry);
 		for (LogListener listener : this.listeners) {
 			listener.logged(entry);
 		}
@@ -116,12 +116,12 @@ public class LogServiceImpl implements LogService, LogReaderService {
 
 	@Override
 	public void addLogListener(LogListener listener) {
-		listeners.add(listener);
+		this.listeners.add(listener);
 	}
 
 	@Override
 	public void removeLogListener(LogListener listener) {
-		listeners.remove(listener);
+		this.listeners.remove(listener);
 	}
 
 }

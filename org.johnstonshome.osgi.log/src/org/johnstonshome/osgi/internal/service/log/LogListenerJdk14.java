@@ -42,8 +42,8 @@ public class LogListenerJdk14 implements LogListener {
 		/*
 		 * initialize Java Logging
 		 */
-		consoleHandler.setLevel(consoleLevel);
-		consoleHandler.setFormatter(consoleFormatter);
+		this.consoleHandler.setLevel(this.consoleLevel);
+		this.consoleHandler.setFormatter(this.consoleFormatter);
 	}
 
 	private Level level(int osgiLevel) {
@@ -62,19 +62,19 @@ public class LogListenerJdk14 implements LogListener {
 	}
 	
 	private void setupLogger(Logger logger) {
-		if (!loggers.contains(logger.getName())) {
+		if (!this.loggers.contains(logger.getName())) {
 			Handler[] existingHandlers = logger.getHandlers();
 			if (existingHandlers.length > 0) {
 				for (Handler handler : existingHandlers) {
 					if (handler instanceof ConsoleHandler) {
-						handler.setLevel(consoleLevel);
-						handler.setFormatter(consoleFormatter);
+						handler.setLevel(this.consoleLevel);
+						handler.setFormatter(this.consoleFormatter);
 					}
 				}
 			} else {
-				logger.addHandler(consoleHandler);
+				logger.addHandler(this.consoleHandler);
 			}
-			loggers.add(logger.getName());
+			this.loggers.add(logger.getName());
 		}
 	}
 	
