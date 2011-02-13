@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Utility bundle tests
+Bundle-SymbolicName: org.johnstonshome.utils.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Simon Johnston
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.johnstonshome.utils.fun,
+ org.johnstonshome.utils.lang,
+ org.junit;version="4.5.0",
+ org.junit.runner;version="4.5.0",
+ org.junit.runners;version="4.5.0"
