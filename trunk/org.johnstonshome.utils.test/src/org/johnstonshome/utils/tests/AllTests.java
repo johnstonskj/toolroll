@@ -20,7 +20,10 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	FunctionalTests.class,
-	StringTests.class
+	MapTests.class,
+	PairTests.class,
+	StringTests.class,
+	NumberTest.class
 })
 public class AllTests {
 }

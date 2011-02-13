@@ -68,4 +68,52 @@ public class Pair<K, V> {
 	public V getValue() {
 		return this.value;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash = 31 * getKey().hashCode();
+		hash = 31 * hash + (getValue() == null ? 0 : getValue().hashCode());
+		return hash;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if ((obj == null) || (obj.getClass() != this.getClass())) {
+			return false;
+		}
+		Pair<K,V> other = (Pair<K, V>) obj;
+		if ((this.getValue() == null || other.getValue() == null) &&
+			this.getValue() != other.getValue()) {
+			return false;
+		}
+		return (this.getKey().equals(other.getKey()) &&
+				((this.getValue() == null && other.getValue() == null) || 
+				 this.getValue().equals(other.getValue()))
+				);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format(
+				"{%s: %s}", 
+				getKey().toString(), 
+				getValue().toString());
+	}
 }
