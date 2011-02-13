@@ -51,6 +51,9 @@ public class Strings {
 	 *     the source
 	 */
 	public static List<String> split(final String source, final String sep) {
+		if (source == null || sep == null) {
+			return null;
+		}
 		List<String> list = new LinkedList<String>();
 		// TODO: null guards
 		if (!isEmpty(source)) {
@@ -73,6 +76,9 @@ public class Strings {
 	 *     the source
 	 */
 	public static List<String> split(final String source, final Pattern sep) {
+		if (source == null || sep == null) {
+			return null;
+		}
 		List<String> list = new LinkedList<String>();
 		// TODO: null guards
 		if (!isEmpty(source)) {
@@ -96,13 +102,16 @@ public class Strings {
 	 * @return a combined string 
 	 */
 	public static final String join(final List<String> strings, final String sep) {
+		if (strings == null) {
+			return null;
+		}
 		StringBuilder builder = new StringBuilder();
 		// TODO: null guards
 		final int last = strings.size() -1;
 		for (int i = 0; i < strings.size(); i++) {
 			builder.append(strings.get(i));
 			if (i < last) {
-				builder.append(sep);
+				builder.append(sep == null ? EMPTY : sep);
 			}
 		}
 		return builder.toString();

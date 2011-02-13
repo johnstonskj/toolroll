@@ -34,6 +34,10 @@ public class StringTests {
 	
 	@Test
 	public void testStringSplitJoin() {
+		assertEquals(null, Strings.split(null, ","));
+		assertEquals(null, Strings.split("a,b,c", (String)null));
+		assertEquals(null, Strings.split(null, (String)null));
+		
 		final List<String> split = Strings.split("a,b,c", ",");
 		assertEquals(3, split.size());
 		assertEquals("a", split.get(0));
@@ -53,7 +57,13 @@ public class StringTests {
 
 	@Test
 	public void testStringRegexSplit() {
-		final List<String> split = Strings.split("a,b ,  c,   d", Pattern.compile("\\s*,\\s*"));
+		final Pattern regex = Pattern.compile("\\s*,\\s*");
+		
+		assertEquals(null, Strings.split(null, regex));
+		assertEquals(null, Strings.split("a,b,c", (Pattern)null));
+		assertEquals(null, Strings.split(null, (Pattern)null));
+		
+		final List<String> split = Strings.split("a,b ,  c,   d", regex);
 		assertEquals(4, split.size());
 		assertEquals("a", split.get(0));
 		assertEquals("b", split.get(1));
