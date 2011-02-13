@@ -94,7 +94,7 @@ public class Maps {
 		Enumeration<Object> keys = map.keys();
 		while (keys.hasMoreElements()) {
 			final String key = (String)keys.nextElement();
-			result.add(new Pair<String,String>(key, (String)map.get(key)));
+			result.add(new Pair<String,String>(key, map.getProperty(key)));
 		}
 		return result;
 	}	
