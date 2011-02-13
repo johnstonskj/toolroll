@@ -55,7 +55,6 @@ public class Strings {
 			return null;
 		}
 		List<String> list = new LinkedList<String>();
-		// TODO: null guards
 		if (!isEmpty(source)) {
 			StringTokenizer tokenizer = new StringTokenizer(source, sep, false);
 			while (tokenizer.hasMoreTokens()) {
@@ -80,7 +79,6 @@ public class Strings {
 			return null;
 		}
 		List<String> list = new LinkedList<String>();
-		// TODO: null guards
 		if (!isEmpty(source)) {
 			Matcher matcher = sep.matcher(source);
 			int start = 0;
@@ -106,7 +104,6 @@ public class Strings {
 			return null;
 		}
 		StringBuilder builder = new StringBuilder();
-		// TODO: null guards
 		final int last = strings.size() -1;
 		for (int i = 0; i < strings.size(); i++) {
 			builder.append(strings.get(i));
