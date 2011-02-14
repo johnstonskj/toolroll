@@ -16,6 +16,9 @@ import org.johnstonshome.utils.par.SynchronousPromise;
 import org.junit.Test;
 
 /**
+ * Tests for the {@link Promise}, {@link SynchronousPromise}, and
+ * {@link AsynchronousPromise} classes.
+ * 
  * @author Simon Johnston (simon@johnstonshome.org)
  *
  */
