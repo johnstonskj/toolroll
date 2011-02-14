@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.johnstonshome.utils.fun.MapFunction;
 import org.johnstonshome.utils.fun.SymOperation;
+import org.johnstonshome.utils.fun.ValueFunction;
 import org.johnstonshome.utils.fun.VoidFunction;
 
 public class Parallel {
@@ -42,7 +43,6 @@ public class Parallel {
 		public int index;
 	}
 	
-	// TODO: can you wait for completion?
 	public static <V> void forEach(List<V> collection, VoidFunction<V> function) {
 		forEach(collection, function, DEFAULT_SLICE_SIZE, DEFAULT_EXECUTOR);
 	}
@@ -54,20 +54,20 @@ public class Parallel {
 	public static <V> void forEach(List<V> collection, VoidFunction<V> function, int sliceSize, ThreadPoolExecutor executor) {
 	}
 	
-	// TODO: use futures
-	public static <V1, V2> List<V2> map(List<V1> collection, MapFunction<V1, V2> function) {
+	public static <V1, V2> ValueFunction<List<V2>> map(List<V1> collection, MapFunction<V1, V2> function) {
+		MessageFunctions<List<V2>> channel = new MessageFunctions<List<V2>>();
+		return channel.getReader();
+	}
+	
+	public static <V> Promise<Collection<V>> filter(Collection<V> collection, MapFunction<V, Boolean> function) {
 		return null;
 	}
 	
-	public static <V> Collection<V> filter(Collection<V> collection, MapFunction<V, Boolean> function) {
+	public static <V> Promise<V> foldl(List<V> collection, SymOperation<V> operation) {
 		return null;
 	}
 	
-	public static <V> V foldl(List<V> collection, SymOperation<V> operation) {
-		return null;
-	}
-	
-	public static <V> V foldr(List<V> collection, SymOperation<V> operation) {
+	public static <V> Promise<V> foldr(List<V> collection, SymOperation<V> operation) {
 		return null;
 	}
 

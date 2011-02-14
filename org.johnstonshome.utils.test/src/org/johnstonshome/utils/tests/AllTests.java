@@ -20,6 +20,7 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	FunctionalTests.class,
+	FunctionWrapperTests.class,
 	MapTests.class,
 	PairTests.class,
 	StringTests.class,
