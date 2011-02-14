@@ -21,6 +21,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	FunctionalTests.class,
 	FunctionWrapperTests.class,
+	FunctionSequenceTests.class,
 	MapTests.class,
 	PairTests.class,
 	StringTests.class,
