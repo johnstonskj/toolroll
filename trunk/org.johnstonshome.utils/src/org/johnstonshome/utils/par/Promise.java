@@ -30,6 +30,10 @@ import org.johnstonshome.utils.fun.VoidFunction;
  * rather than having a blocking function to retrieve the value of the 
  * calculation we chain together handlers which consume the value(s).
  * 
+ * Note that the behavior of multiple calls to the method <em>call</em>
+ * or the invocation of intermediate promise <em>call</em> calls is
+ * indeterminate. 
+ * 
  * <h3>Example</h3>
  * 
  * <pre>
