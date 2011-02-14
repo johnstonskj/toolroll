@@ -2,12 +2,12 @@ package org.johnstonshome.utils.fun;
 
 import static org.johnstonshome.utils.lang.Validate.*;
 
-public class CurriedOperation<V1, V2, V3> implements MapFunction<V2, V1> {
+public class CurriedBinaryFunction<V1, V2, V3> implements UnaryFunction<V2, V1> {
 
-	private Operation<V1,V2,V3> operation;
+	private BinaryFunction<V1,V2,V3> operation;
 	private V3 rhs;
 	
-	public CurriedOperation(Operation<V1,V2,V3> operation, V3 rhs) {
+	public CurriedBinaryFunction(BinaryFunction<V1,V2,V3> operation, V3 rhs) {
 		isNotNull("operation", operation);
 		isNotNull("rhs", rhs);
 		this.operation = operation;

@@ -9,22 +9,19 @@
 package org.johnstonshome.utils.fun;
 
 /**
- * Models a simple function that takes a value and returns a value of the same
- * type.
- * 
+ * Models a function that takes a single element and returns no value to
+ * the caller.
+ *  
  * @author Simon Johnston (simon@johnstonshome.org)
  *
- * @param <V> the type of the element to be passed into, and returned from, 
- * the function.
+ * @param <V> the type of the element to be passed into the function.
  */
-public interface Function<V> extends MapFunction<V, V> {
+public interface UnaryProcedure<V> {
 
 	/**
-	 * Call this function; this function <em>should</em> be idempotent
-	 * and maintain no state.
+	 * Call this function; this function may not be idempotent.
 	 * 
 	 * @param value the value to give to this function
-	 * @return the value derived from the input
 	 */
-	public V call(V value);
+	public void call(V value);
 }

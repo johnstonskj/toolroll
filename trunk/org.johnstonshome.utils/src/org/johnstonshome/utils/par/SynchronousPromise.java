@@ -8,9 +8,9 @@
  */
 package org.johnstonshome.utils.par;
 
-import org.johnstonshome.utils.fun.MapFunction;
+import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.ValueFunction;
-import org.johnstonshome.utils.fun.VoidFunction;
+import org.johnstonshome.utils.fun.UnaryProcedure;
 
 /**
  * A synchronous {@link Promise}, each handler is called in turn when the 
@@ -25,18 +25,18 @@ import org.johnstonshome.utils.fun.VoidFunction;
  */
 public class SynchronousPromise<V> implements Promise<V> {
 
-	private MapFunction<V, ?> handler;
-	private VoidFunction<V> voidHandler;
-	private VoidFunction<Throwable> errorHandler;
+	private UnaryFunction<V, ?> handler;
+	private UnaryProcedure<V> voidHandler;
+	private UnaryProcedure<Throwable> errorHandler;
 	private SynchronousPromise<?> next;
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.MapFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryFunction)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V2> Promise<V2> then(MapFunction<V, V2> handler) {
+	public <V2> Promise<V2> then(UnaryFunction<V, V2> handler) {
 		this.handler = handler;
 		this.voidHandler = null;
 		this.next = new SynchronousPromise<V2>();
@@ -45,12 +45,12 @@ public class SynchronousPromise<V> implements Promise<V> {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.MapFunction, org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryFunction, org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V2> Promise<V2> then(MapFunction<V, V2> handler,
-			VoidFunction<Throwable> errorHandler) {
+	public <V2> Promise<V2> then(UnaryFunction<V, V2> handler,
+			UnaryProcedure<Throwable> errorHandler) {
 		this.handler = handler;
 		this.voidHandler = null;
 		this.errorHandler = errorHandler;
@@ -60,21 +60,21 @@ public class SynchronousPromise<V> implements Promise<V> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@Override
-	public void then(VoidFunction<V> handler) {
+	public void then(UnaryProcedure<V> handler) {
 		this.handler = null;
 		this.voidHandler = handler;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.VoidFunction, org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryProcedure, org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@Override
-	public void then(VoidFunction<V> handler,
-			VoidFunction<Throwable> errorHandler) {
+	public void then(UnaryProcedure<V> handler,
+			UnaryProcedure<Throwable> errorHandler) {
 		this.handler = null;
 		this.voidHandler = handler;
 		this.errorHandler = errorHandler;
@@ -82,7 +82,7 @@ public class SynchronousPromise<V> implements Promise<V> {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.fun.VoidFunction#call(java.lang.Object)
+	 * @see org.johnstonshome.utils.fun.UnaryProcedure#call(java.lang.Object)
 	 */
 	@Override
 	public void call(ValueFunction<V> value) {

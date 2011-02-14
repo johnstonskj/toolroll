@@ -21,7 +21,7 @@
  * <pre>
  * final List<String> test = Strings.split("a,bb,ccc,dddd,eeeee", ",");
  * 
- * final List<Integer> results = Functional.map(test, new MapFunction<String, Integer>() {
+ * final List<Integer> results = Functional.map(test, new UnaryFunction<String, Integer>() {
  *     @Override
  *     public Integer call(String value) {
  *         return value.length();

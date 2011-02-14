@@ -13,7 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
 import org.johnstonshome.utils.fun.ValueFunction;
-import org.johnstonshome.utils.fun.VoidFunction;
+import org.johnstonshome.utils.fun.UnaryProcedure;
 
 /**
  * This class provides two functions, a reader and a writer which use a shared
@@ -25,7 +25,7 @@ import org.johnstonshome.utils.fun.VoidFunction;
  */
 public class MessageFunctions<V> {
 
-	private class WriteValueFunction implements VoidFunction<V> {
+	private class WriteValueFunction implements UnaryProcedure<V> {
 		
 		private BlockingQueue<V> rendezvous;
 
@@ -96,7 +96,7 @@ public class MessageFunctions<V> {
 	 * 
 	 * @return the writer function.
 	 */
-	public VoidFunction<V> getWriter() {
+	public UnaryProcedure<V> getWriter() {
 		return this.writer;
 	}
 	
