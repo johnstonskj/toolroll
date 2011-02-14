@@ -6,4 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Simon Johnston
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.johnstonshome.utils.fun,
+ org.johnstonshome.utils.par,
  org.johnstonshome.utils.lang
