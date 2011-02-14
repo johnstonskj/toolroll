@@ -120,7 +120,7 @@ public class Maps {
 		Map<K,V> result = new HashMap<K, V>();
 		result = Functional.accumulate(
 				items, 
-				new Operation<Map<K,V>, Map<K,V>, Pair<K,V>>() {
+				new BinaryFunction<Map<K,V>, Map<K,V>, Pair<K,V>>() {
 					@Override
 					public Map<K,V> call(Map<K,V> lhs, Pair<K,V> rhs) {
 						lhs.put(rhs.getKey(), rhs.getValue());

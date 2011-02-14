@@ -9,19 +9,12 @@
 package org.johnstonshome.utils.fun;
 
 /**
- * Models a function that takes a single element and returns no value to
- * the caller.
- *  
+ * Models a function that maps from an input element to a Boolean value.
+ * 
  * @author Simon Johnston (simon@johnstonshome.org)
  *
  * @param <V> the type of the element to be passed into the function.
  */
-public interface VoidFunction<V> {
+public interface UnaryPredicate<V> extends UnaryFunction<V, Boolean> {
 
-	/**
-	 * Call this function; this function may not be idempotent.
-	 * 
-	 * @param value the value to give to this function
-	 */
-	public void call(V value);
 }

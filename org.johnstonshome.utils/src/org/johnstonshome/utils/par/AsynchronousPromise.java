@@ -14,9 +14,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.johnstonshome.utils.fun.MapFunction;
+import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.ValueFunction;
-import org.johnstonshome.utils.fun.VoidFunction;
+import org.johnstonshome.utils.fun.UnaryProcedure;
 
 /**
  * 
@@ -39,20 +39,20 @@ public class AsynchronousPromise<V> implements Promise<V>, Runnable {
 			new LinkedBlockingQueue<Runnable>()); 
 
 	private ValueFunction<V> value;
-	private MapFunction<V, ?> handler;
-	private VoidFunction<V> voidHandler;
-	private VoidFunction<Throwable> errorHandler;
+	private UnaryFunction<V, ?> handler;
+	private UnaryProcedure<V> voidHandler;
+	private UnaryProcedure<Throwable> errorHandler;
 	private AsynchronousPromise<?> next;
 	
 	private Lock lock = new ReentrantLock();
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.MapFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryFunction)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V2> Promise<V2> then(MapFunction<V, V2> handler) {
+	public <V2> Promise<V2> then(UnaryFunction<V, V2> handler) {
 		if (this.lock.tryLock()) {
 			this.handler = handler;
 			this.voidHandler = null;
@@ -65,12 +65,12 @@ public class AsynchronousPromise<V> implements Promise<V>, Runnable {
 	
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.MapFunction, org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryFunction, org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V2> Promise<V2> then(MapFunction<V, V2> handler,
-			VoidFunction<Throwable> errorHandler) {
+	public <V2> Promise<V2> then(UnaryFunction<V, V2> handler,
+			UnaryProcedure<Throwable> errorHandler) {
 		if (this.lock.tryLock()) {
 			this.handler = handler;
 			this.voidHandler = null;
@@ -84,10 +84,10 @@ public class AsynchronousPromise<V> implements Promise<V>, Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@Override
-	public void then(VoidFunction<V> handler) {
+	public void then(UnaryProcedure<V> handler) {
 		if (this.lock.tryLock()) {
 			this.handler = null;
 			this.voidHandler = handler;
@@ -97,11 +97,11 @@ public class AsynchronousPromise<V> implements Promise<V>, Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.VoidFunction, org.johnstonshome.utils.fun.VoidFunction)
+	 * @see org.johnstonshome.utils.par.Promise#then(org.johnstonshome.utils.fun.UnaryProcedure, org.johnstonshome.utils.fun.UnaryProcedure)
 	 */
 	@Override
-	public void then(VoidFunction<V> handler,
-			VoidFunction<Throwable> errorHandler) {
+	public void then(UnaryProcedure<V> handler,
+			UnaryProcedure<Throwable> errorHandler) {
 		if (this.lock.tryLock()) {
 			this.handler = null;
 			this.voidHandler = handler;
@@ -112,7 +112,7 @@ public class AsynchronousPromise<V> implements Promise<V>, Runnable {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.johnstonshome.utils.fun.VoidFunction#call(java.lang.Object)
+	 * @see org.johnstonshome.utils.fun.UnaryProcedure#call(java.lang.Object)
 	 */
 	@Override
 	public void call(ValueFunction<V> value) {

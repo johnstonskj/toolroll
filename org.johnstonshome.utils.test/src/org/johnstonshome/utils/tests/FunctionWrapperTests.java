@@ -13,11 +13,11 @@ import static org.junit.Assert.assertEquals;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.johnstonshome.utils.fun.CurriedOperation;
+import org.johnstonshome.utils.fun.CurriedBinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
-import org.johnstonshome.utils.fun.MapFunction;
-import org.johnstonshome.utils.fun.Operation;
-import org.johnstonshome.utils.funwrap.Map;
+import org.johnstonshome.utils.fun.UnaryFunction;
+import org.johnstonshome.utils.fun.BinaryFunction;
+import org.johnstonshome.utils.funs.Map;
 import org.junit.Test;
 
 /**
@@ -30,15 +30,15 @@ public class FunctionWrapperTests {
 	
 	@Test
 	public void testCurriedOperation() {
-		Operation<Integer, Integer, Integer> plus = new Operation<Integer, Integer, Integer>() {
+		BinaryFunction<Integer, Integer, Integer> plus = new BinaryFunction<Integer, Integer, Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
 				return lhs + rhs;
 			}
 		};
 		
-		MapFunction<Integer, Integer> plus2 = 
-			new CurriedOperation<Integer, Integer, Integer>(plus, 2);
+		UnaryFunction<Integer, Integer> plus2 = 
+			new CurriedBinaryFunction<Integer, Integer, Integer>(plus, 2);
 		
 		assertEquals(Integer.valueOf(4), plus2.call(2));
 		assertEquals(Integer.valueOf(102), plus2.call(100));
@@ -46,7 +46,7 @@ public class FunctionWrapperTests {
 
 	@Test
 	public void testCurriedMap() {
-		MapFunction<Integer, Integer> square = new MapFunction<Integer, Integer>() {
+		UnaryFunction<Integer, Integer> square = new UnaryFunction<Integer, Integer>() {
 			@Override
 			public Integer call(Integer value) {
 				return value * value;

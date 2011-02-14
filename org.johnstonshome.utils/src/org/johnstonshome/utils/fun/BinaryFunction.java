@@ -9,14 +9,16 @@
 package org.johnstonshome.utils.fun;
 
 /**
- * A <em>symmetrical</em> operation is applied to two values and returns a new 
- * value; symmetrical as the types for each value must be the same.
+ * An operation is applied to two values and returns a new value. There is
+ * no assumption that the types for these values are related in any way.
  * 
  * @author Simon Johnston (simon@johnstonshome.org)
  *
- * @param <V> the type for each operation parameter and the resulting value.
+ * @param <V1> the type of the value returned from the function. 
+ * @param <V2> the type of the first element to be passed into the function.
+ * @param <V3> the type of the first element to be passed into the function.
  */
-public interface SymOperation<V> extends Operation<V,V,V> {
+public interface BinaryFunction<V1, V2, V3> {
 
 	/**
 	 * Calculate the return value from the two provided values, usually 
@@ -26,5 +28,5 @@ public interface SymOperation<V> extends Operation<V,V,V> {
 	 * @param rhs second operand
 	 * @return the result of the operation
 	 */
-	public V call(V lhs, V rhs);
+	public V1 call(V2 lhs, V3 rhs);
 }

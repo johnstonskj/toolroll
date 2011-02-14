@@ -16,7 +16,7 @@ package org.johnstonshome.utils.fun;
  * @param <V1> the type of the element to be passed into the function.
  * @param <V2> the type of the value returned from the function.
  */
-public interface MapFunction<V1, V2> {
+public interface UnaryFunction<V1, V2> {
 
 	/**
 	 * Call this function; this function <em>should</em> be idempotent

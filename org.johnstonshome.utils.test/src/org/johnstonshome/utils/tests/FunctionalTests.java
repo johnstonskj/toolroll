@@ -14,10 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import static org.junit.Assert.*;
 
+import org.johnstonshome.utils.fun.BinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
-import org.johnstonshome.utils.fun.MapFunction;
-import org.johnstonshome.utils.fun.SymOperation;
-import org.johnstonshome.utils.fun.VoidFunction;
+import org.johnstonshome.utils.fun.UnaryFunction;
+import org.johnstonshome.utils.fun.UnaryPredicate;
+import org.johnstonshome.utils.fun.UnaryProcedure;
 import org.johnstonshome.utils.lang.Strings;
 import org.junit.Test;
 
@@ -33,7 +34,7 @@ public class FunctionalTests {
 	public void testForEach() {
 		final List<String> test = Strings.split("1,b,c,d,e", ",");
 		
-		Functional.forEach(test, new VoidFunction<String>() {
+		Functional.forEach(test, new UnaryProcedure<String>() {
 			@Override
 			public void call(String value) {
 				// TODO: better, need to validate
@@ -46,7 +47,7 @@ public class FunctionalTests {
 	public void testMap() {
 		final List<String> test = Strings.split("a,bb,ccc,dddd,eeeee", ",");
 		
-		final List<Integer> results = Functional.map(test, new MapFunction<String, Integer>() {
+		final List<Integer> results = Functional.map(test, new UnaryFunction<String, Integer>() {
 			@Override
 			public Integer call(String value) {
 				return value.length();
@@ -62,7 +63,7 @@ public class FunctionalTests {
 	public void testAny() {		
 		List<String> test = Strings.split("1,b,c,d,e", ",");
 		
-		final boolean result = Functional.any(test, new MapFunction<String, Boolean>() {
+		final boolean result = Functional.any(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
 				return value.equals("d");
@@ -70,7 +71,7 @@ public class FunctionalTests {
 		});
 		assertTrue(result);
 
-		final boolean result2 = Functional.any(test, new MapFunction<String, Boolean>() {
+		final boolean result2 = Functional.any(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
 				return value.equals("x");
@@ -83,7 +84,7 @@ public class FunctionalTests {
 	public void testAll() {		
 		List<String> test = Strings.split("d,d,d,d,d", ",");
 		
-		final boolean result = Functional.every(test, new MapFunction<String, Boolean>() {
+		final boolean result = Functional.every(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
 				return value.equals("d");
@@ -91,7 +92,7 @@ public class FunctionalTests {
 		});
 		assertTrue(result);
 
-		final boolean result2 = Functional.every(test, new MapFunction<String, Boolean>() {
+		final boolean result2 = Functional.every(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
 				return value.equals("x");
@@ -104,7 +105,7 @@ public class FunctionalTests {
 	public void testFilter() {		
 		List<String> test = Strings.split("d,b,c,d,e", ",");
 		
-		final Collection<String> result = Functional.filter(test, new MapFunction<String, Boolean>() {
+		final Collection<String> result = Functional.filter(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
 				return value.equals("d");
@@ -118,7 +119,7 @@ public class FunctionalTests {
 		Integer[] array = {1, 2, 3, 4, 5};
 		List<Integer> test = Arrays.asList(array);
 		
-		final Integer sum = Functional.foldLeft(test, new SymOperation<Integer>() {
+		final Integer sum = Functional.foldLeft(test, new BinaryFunction<Integer,Integer,Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
 				return lhs + rhs;
@@ -132,7 +133,7 @@ public class FunctionalTests {
 		String[] array = {"o", "l", "l", "e", "h"};
 		List<String> test = Arrays.asList(array);
 		
-		final String sum = Functional.foldRight(test, new SymOperation<String>() {
+		final String sum = Functional.foldRight(test, new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {
 				return lhs + rhs;
@@ -166,7 +167,7 @@ public class FunctionalTests {
 		 * shows foldr(l) == foldl(reverse(l))
 		 */
 		List<String> result = Functional.reverse(test);
-		final String sum = Functional.foldLeft(result, new SymOperation<String>() {
+		final String sum = Functional.foldLeft(result, new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {
 				return lhs + rhs;

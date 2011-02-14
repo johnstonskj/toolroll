@@ -50,9 +50,9 @@ public class Functional {
 	 * @param collection the collection of elements, note no guarantee of order
 	 *     is implied by {@link java.util.Collection}.
 	 * @param function the function to call for each element in the collection,
-	 *     note that {@link VoidFunction} has no return type.
+	 *     note that {@link UnaryProcedure} has no return type.
 	 */
-	public static <V> void forEach(final Collection<V> collection, final VoidFunction<V> function) {
+	public static <V> void forEach(final Collection<V> collection, final UnaryProcedure<V> function) {
 		if (collection != null && function != null) {
 			for (final V value : collection) {
 				function.call(value);
@@ -80,7 +80,7 @@ public class Functional {
 	 * @return a new collection with one element for each element in the input
 	 *     collection.
 	 */
-	public static <V1, V2> List<V2> map(final Collection<V1> collection, final MapFunction<V1, V2> function) {
+	public static <V1, V2> List<V2> map(final Collection<V1> collection, final UnaryFunction<V1, V2> function) {
 		if (collection == null || function == null) {
 			return null;
 		}
@@ -106,7 +106,7 @@ public class Functional {
 	 * @return <code>true</code> if any element in the collection satisifies the
 	 *     predicate, else <code>false</code>.
 	 */
-	public static <V> boolean any(final Collection<V> collection, final MapFunction<V, Boolean> predicate) {
+	public static <V> boolean any(final Collection<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return false;
 		}
@@ -137,7 +137,7 @@ public class Functional {
 	 * @return <code>true</code> if each element in the collection satisifies the
 	 *     predicate, else <code>false</code>.
 	 */
-	public static <V> boolean every(final Collection<V> collection, final MapFunction<V, Boolean> function) {
+	public static <V> boolean every(final Collection<V> collection, final UnaryPredicate<V> function) {
 		if (collection == null || function == null) {
 			return false;
 		}
@@ -166,7 +166,7 @@ public class Functional {
 	 * @return a new collection containing only those elements where the provided
 	 *     predicate returned <code>true</code>.
 	 */
-	public static <V> Collection<V> filter(final Collection<V> collection, final MapFunction<V, Boolean> predicate) {
+	public static <V> Collection<V> filter(final Collection<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -195,7 +195,7 @@ public class Functional {
 	 * @return a new collection containing only those elements where the provided
 	 *     predicate returned <code>false</code>.
 	 */
-	public static <V> Collection<V> remove(final Collection<V> collection, final MapFunction<V, Boolean> predicate) {
+	public static <V> Collection<V> remove(final Collection<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -226,7 +226,7 @@ public class Functional {
 	 *     satisfy the predicate and the second containing all elements that did 
 	 *     not.
 	 */
-	public static <V> List<Collection<V>> partition(final Collection<V> collection, final MapFunction<V, Boolean> predicate) {
+	public static <V> List<Collection<V>> partition(final Collection<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -260,7 +260,7 @@ public class Functional {
 	 * @return a list of partitions, each of which is a collection of 
 	 *     <em>0..n</em> elements from the input collection.
 	 */
-	public static <V> List<Collection<V>> partitionN(final Collection<V> collection, final MapFunction<V, Integer> function, int partitions) {
+	public static <V> List<Collection<V>> partitionN(final Collection<V> collection, final UnaryFunction<V, Integer> function, int partitions) {
 		if (collection == null || function == null) {
 			return null;
 		}
@@ -310,7 +310,7 @@ public class Functional {
 	 * @param operation the operation to apply to the values in the list.
 	 * @return the result of folding the operation into the list.
 	 */
-	public static <V> V foldLeft(final List<V> list, final SymOperation<V> operation) {
+	public static <V> V foldLeft(final List<V> list, final BinaryFunction<V,V,V> operation) {
 		if (list == null || list.size() == 0) {
 			return null;
 		}
@@ -326,7 +326,7 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@see #foldLeft(List, Operation)}, however this computes an
+	 * Similar to {@see #foldLeft(List, BinaryFunction)}, however this computes an
 	 * alternate accumulated value. In this case the initial value for the 
 	 * accumulator is passed in, and the operation will therefore be provided
 	 * the current value of the accumulator and the current element value and
@@ -345,7 +345,7 @@ public class Functional {
 	 * @return the result of applying operation to the accumulator and each
 	 *     element of the list in order.
 	 */
-	public static <AV, EV> AV accumulate(final List<EV> list, final Operation<AV, AV, EV> operation, AV initial) {
+	public static <AV, EV> AV accumulate(final List<EV> list, final BinaryFunction<AV, AV, EV> operation, AV initial) {
 		if (list == null || list.size() == 0) {
 			return null;
 		}
@@ -357,7 +357,7 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@see #foldLeft(List, Operation)}, however this function 
+	 * Similar to {@see #foldLeft(List, BinaryFunction)}, however this function 
 	 * folds the operator into the list from right to left rather than
 	 * from left to right. It can be shown that the two functions are 
 	 * related in the following manner:
@@ -375,7 +375,7 @@ public class Functional {
 	 * @param operation the operation to apply to the values in the list.
 	 * @return the result of folding the operation into the list.
 	 */
-	public static <V> V foldRight(final List<V> list, final SymOperation<V> operation) {
+	public static <V> V foldRight(final List<V> list, final BinaryFunction<V,V,V> operation) {
 		if (list == null || list.size() == 0) {
 			return null;
 		}
