@@ -38,6 +38,7 @@ public class MessageFunctions<V> {
 			try {
 				this.rendezvous.put(value);
 			} catch (InterruptedException e) {
+				// ?
 			}			
 		}
 		

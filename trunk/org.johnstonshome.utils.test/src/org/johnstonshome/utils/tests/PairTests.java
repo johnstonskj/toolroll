@@ -30,6 +30,7 @@ public class PairTests {
 			new Pair<String, String>(null, "");
 			fail();
 		} catch (IllegalArgumentException e) {
+			// ignore - test passed
 		}
 		new Pair<String, String>("", null);
 		Pair<String, String> test = new Pair<String, String>("k", "v");
@@ -37,6 +38,7 @@ public class PairTests {
 			test.setKey(null);
 			fail();
 		} catch (IllegalArgumentException e) {
+			// ignore - test passed
 		}
 		test.setValue(null);
 	}

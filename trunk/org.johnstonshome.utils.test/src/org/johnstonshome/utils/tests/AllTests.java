@@ -29,4 +29,5 @@ import org.junit.runners.Suite;
 	PromiseTests.class
 })
 public class AllTests {
+	// nothing further required
 }

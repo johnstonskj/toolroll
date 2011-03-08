@@ -16,5 +16,5 @@ package org.johnstonshome.utils.fun;
  * @param <V> the type of the element to be passed into the function.
  */
 public interface UnaryPredicate<V> extends UnaryFunction<V, Boolean> {
-
+	// nothing further required
 }

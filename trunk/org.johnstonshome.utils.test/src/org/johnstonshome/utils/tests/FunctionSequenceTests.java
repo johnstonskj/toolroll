@@ -27,9 +27,9 @@ public class FunctionSequenceTests {
 		sequence.then(new UnaryFunction<String, Integer>() {
 			@Override
 			public Integer call(String value) {
-				return Integer.parseInt(value);
+				return Integer.valueOf(value);
 			}
-		}).then(new GT<Integer>(10)
+		}).then(new GT<Integer>(Integer.valueOf(10))
 		).then(new UnaryFunction<Boolean, String>() {
 			@Override
 			public String call(Boolean value) {

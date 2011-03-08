@@ -53,6 +53,15 @@ public class CommandLineConfigProvider implements Configuration {
 		this(DEFAULT_PREFIX, args);
 	}
 	
+	/**
+	 * Construct a new instance with the command-line parameters passed
+	 * into this application. This implies that the parameters passed 
+	 * into the static function <em>main</em> must be captured.
+	 * 
+	 * @param prefix some characters that prefix any legal command-line
+	 *         argument, usually <code>"--"</code>
+	 * @param args the arguments passed to the static function <em>main</em>. 
+	 */
 	public CommandLineConfigProvider(final String prefix, final String[] args) {
 		for (String arg : args) {
 			if (arg.startsWith(prefix)) {

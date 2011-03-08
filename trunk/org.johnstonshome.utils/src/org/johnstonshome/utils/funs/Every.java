@@ -33,7 +33,7 @@ public class Every<V> implements BinaryFunction<Boolean, Collection<V>, UnaryPre
 	 */
 	@Override
 	public Boolean call(Collection<V> collection, UnaryPredicate<V> function) {
-		return Functional.every(collection, function);
+		return Boolean.valueOf(Functional.every(collection, function));
 	}
 
 	/**

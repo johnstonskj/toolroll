@@ -50,7 +50,7 @@ public class FunctionalTests {
 		final List<Integer> results = Functional.map(test, new UnaryFunction<String, Integer>() {
 			@Override
 			public Integer call(String value) {
-				return value.length();
+				return Integer.valueOf(value.length());
 			}
 		});
 		assertEquals(5, results.size());
@@ -66,7 +66,7 @@ public class FunctionalTests {
 		final boolean result = Functional.any(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
-				return value.equals("d");
+				return Boolean.valueOf(value.equals("d"));
 			}
 		});
 		assertTrue(result);
@@ -74,7 +74,7 @@ public class FunctionalTests {
 		final boolean result2 = Functional.any(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
-				return value.equals("x");
+				return Boolean.valueOf(value.equals("x"));
 			}
 		});
 		assertFalse(result2);
@@ -87,7 +87,7 @@ public class FunctionalTests {
 		final boolean result = Functional.every(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
-				return value.equals("d");
+				return Boolean.valueOf(value.equals("d"));
 			}
 		});
 		assertTrue(result);
@@ -95,7 +95,7 @@ public class FunctionalTests {
 		final boolean result2 = Functional.every(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
-				return value.equals("x");
+				return Boolean.valueOf(value.equals("x"));
 			}
 		});
 		assertFalse(result2);
@@ -108,7 +108,7 @@ public class FunctionalTests {
 		final Collection<String> result = Functional.filter(test, new UnaryPredicate<String>() {
 			@Override
 			public Boolean call(String value) {
-				return value.equals("d");
+				return Boolean.valueOf(value.equals("d"));
 			}
 		});
 		assertEquals(2, result.size());
@@ -116,13 +116,14 @@ public class FunctionalTests {
 
 	@Test
 	public void testFoldl() {
-		Integer[] array = {1, 2, 3, 4, 5};
+		Integer[] array = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
+				Integer.valueOf(4), Integer.valueOf(5)};
 		List<Integer> test = Arrays.asList(array);
 		
 		final Integer sum = Functional.foldLeft(test, new BinaryFunction<Integer,Integer,Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
-				return lhs + rhs;
+				return Integer.valueOf(lhs.intValue() + rhs.intValue());
 			}
 		});
 		assertEquals(15, sum.intValue());
@@ -144,9 +145,9 @@ public class FunctionalTests {
 	
 	@Test
 	public void testZip() {
-		Integer[] array1 = {1, 2, 3, 4};
+		Integer[] array1 = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)};
 		List<Integer> list1 = Arrays.asList(array1);
-		Integer[] array2 = {5, 6, 7};
+		Integer[] array2 = {Integer.valueOf(5), Integer.valueOf(6), Integer.valueOf(7)};
 		List<Integer> list2 = Arrays.asList(array2);
 		List<List<Integer>> input = new LinkedList<List<Integer>>();
 		input.add(list1);

@@ -95,8 +95,6 @@ public interface Promise<V> extends UnaryProcedure<ValueFunction<V>> {
 	 * Add a handler to this promise, this will be called when the promise
 	 * has generated a value.
 	 * 
-	 * @param <V2> the return value from the UnaryFunction, also therefore the
-	 *     value type for the Promise returned from this call.
 	 * @param handler the handler to be added for this Promise
 	 */
 	public void then(UnaryProcedure<V> handler);
@@ -105,8 +103,6 @@ public interface Promise<V> extends UnaryProcedure<ValueFunction<V>> {
 	 * Add a handler to this promise, this will be called when the promise
 	 * has generated a value.
 	 * 
-	 * @param <V2> the return value from the UnaryFunction, also therefore the
-	 *     value type for the Promise returned from this call.
 	 * @param handler the handler to be added for this Promise
 	 * @param errorHandler a handler to be called if the primary value 
 	 *     throws an exception.

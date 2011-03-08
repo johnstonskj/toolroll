@@ -33,7 +33,7 @@ public class Any<V> implements BinaryFunction<Boolean, Collection<V>, UnaryPredi
 	 */
 	@Override
 	public Boolean call(Collection<V> collection, UnaryPredicate<V> function) {
-		return Functional.any(collection, function);
+		return Boolean.valueOf(Functional.any(collection, function));
 	}
 
 	/**

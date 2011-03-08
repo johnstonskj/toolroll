@@ -57,7 +57,8 @@ public class Validate {
 	 * exception instance.
 	 * 
 	 * @param name the name of the value being tested
-	 * @param value the value to test, if it <em>is</em> <code>null</code>
+	 * @param values the collection of values to test, if the collection <em>is</em> 
+	 *     <code>null</code> or the collection <em>contans</em> <code>null</code>
 	 *     the function will raise an exception.
 	 */
 	public static void isNotNull(String name, Collection<?> values) {
