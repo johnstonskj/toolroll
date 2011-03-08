@@ -10,7 +10,7 @@ package org.johnstonshome.utils.tests;
 
 import static org.junit.Assert.*;
 
-import org.johnstonshome.utils.fun.Pair;
+import org.johnstonshome.utils.lang.Pair;
 import org.junit.Test;
 
 /**

@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.johnstonshome.utils.fun.Maps;
-import org.johnstonshome.utils.fun.Pair;
+import org.johnstonshome.utils.lang.Pair;
 import org.junit.Test;
 
 /**
