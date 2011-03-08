@@ -19,7 +19,7 @@ import org.junit.Test;
  * @author Simon Johnston (simon@johnstonshome.org)
  *
  */
-public class NumberTest {
+public class NumberTests {
 
 	@Test
 	public void testIsEven() {
