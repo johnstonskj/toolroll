@@ -8,8 +8,13 @@
  */
 package org.johnstonshome.utils.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,8 +98,29 @@ public class StringTests {
 	}
 
 	@Test
-	public void testReadFile() {
-		// TODO: test fromFile, fromInputStream, and fromReader
+	public void testReadFile() throws Exception {
+		final String resource = System.getProperty("user.dir") + "/data/readFileExample.txt"; 
+		final File file = new File(resource);
+		if (file.exists()) {
+			final String read = Strings.fromFile(file);
+			assertEquals("Hello\n\tWorld!\n", read);
+		} else {
+			System.err.println("Error: run tests from project root folder, could not find 'data' directory.");
+		}
+	}
+	
+	@Test 
+	public void testReadReader() {
+		final String original = "Hello\n\tWorld!\n";
+		final String read = Strings.fromReader(new StringReader(original));
+		assertEquals(original, read);
+	}
+	
+	@Test 
+	public void testReadStream() {
+		final String original = "Hello\n\tWorld!\n";
+		final String read = Strings.fromInputStream(new ByteArrayInputStream(original.getBytes()));
+		assertEquals(original, read);
 	}
 	
 	@Test

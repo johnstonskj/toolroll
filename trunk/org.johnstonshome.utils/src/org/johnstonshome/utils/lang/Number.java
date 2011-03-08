@@ -9,7 +9,7 @@
 package org.johnstonshome.utils.lang;
 
 /**
- * Simple numeric utilities.
+ * Simple common utilities functions for dealing with numeric values.
  * 
  * @author Simon Johnston (simon@johnstonshome.org)
  *
