@@ -311,7 +311,7 @@ public class Functional {
 	 * @return the result of folding the operation into the list.
 	 */
 	public static <V> V foldLeft(final List<V> list, final BinaryFunction<V,V,V> operation) {
-		if (list == null || list.size() == 0) {
+		if (list == null || list.size() == 0 || operation == null) {
 			return null;
 		}
 		V accumulator = null;
@@ -346,7 +346,7 @@ public class Functional {
 	 *     element of the list in order.
 	 */
 	public static <AV, EV> AV accumulate(final List<EV> list, final BinaryFunction<AV, AV, EV> operation, AV initial) {
-		if (list == null || list.size() == 0) {
+		if (list == null || list.size() == 0 || operation == null) {
 			return null;
 		}
 		AV accumulator = initial;
@@ -376,7 +376,7 @@ public class Functional {
 	 * @return the result of folding the operation into the list.
 	 */
 	public static <V> V foldRight(final List<V> list, final BinaryFunction<V,V,V> operation) {
-		if (list == null || list.size() == 0) {
+		if (list == null || list.size() == 0 || operation == null) {
 			return null;
 		}
 		V accumulator = null;
@@ -408,6 +408,9 @@ public class Functional {
 	 * { {1, 5}, {2, 6}, {3, 7}, {4, 8} }
 	 * </pre>
 	 * 
+	 * Note, is <em>lists</em> is <code>null</code>, or every element in the 
+	 * list is <code>null</code> then this function will return <code>null</code>.
+	 * 
 	 * @param <V> the element type for each element in both the input 
 	 *     and output collections. 
 	 * @param lists a list of lists that contain the values to zip
@@ -417,9 +420,17 @@ public class Functional {
 		if (lists == null) {
 			return null;
 		}
+		int nulls = 0;
 		int max = Integer.MAX_VALUE;
 		for (Collection<V> collection : lists) {
-			max = Math.min(max, collection.size());
+			if (collection != null) {
+				max = Math.min(max, collection.size());
+			} else {
+				nulls++;
+			}
+		}
+		if (nulls == lists.size()) {
+			return null;
 		}
 		List<List<V>> results = new ArrayList<List<V>>(max);
 		for (int i = 0; i < max; i++) {

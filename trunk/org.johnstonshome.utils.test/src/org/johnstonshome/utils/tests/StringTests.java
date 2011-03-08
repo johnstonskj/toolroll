@@ -38,13 +38,16 @@ public class StringTests {
 		assertFalse(Strings.isEmpty(" "));
 		assertFalse(Strings.isEmpty("empty"));
 	}
-	
+
 	@Test
-	public void testStringSplitJoin() {
+	public void testStringSplitJoinNull() {
 		assertEquals(null, Strings.split(null, ","));
 		assertEquals(null, Strings.split("a,b,c", (String)null));
 		assertEquals(null, Strings.split(null, (String)null));
-		
+	}
+	
+	@Test
+	public void testStringSplitJoin() {		
 		final List<String> split = Strings.split("a,b,c", ",");
 		assertEquals(3, split.size());
 		assertEquals("a", split.get(0));
@@ -56,6 +59,13 @@ public class StringTests {
 	}
 
 	@Test
+	public void testStringSplitNull() {
+		assertEquals(null, Strings.split("a,b", (String)null));
+		assertEquals(null, Strings.split(null, ","));
+		assertEquals(null, Strings.split(null, (String)null));
+	}
+	
+	@Test
 	public void testStringSplitOne() {
 		final List<String> split = Strings.split("a", ",");
 		assertEquals(1, split.size());
@@ -63,12 +73,17 @@ public class StringTests {
 	}
 
 	@Test
-	public void testStringRegexSplit() {
+	public void testStringRegexSplitNull() {
 		final Pattern regex = Pattern.compile("\\s*,\\s*");
 		
 		assertEquals(null, Strings.split(null, regex));
 		assertEquals(null, Strings.split("a,b,c", (Pattern)null));
 		assertEquals(null, Strings.split(null, (Pattern)null));
+	}
+	
+	@Test
+	public void testStringRegexSplit() {
+		final Pattern regex = Pattern.compile("\\s*,\\s*");
 		
 		final List<String> split = Strings.split("a,b ,  c,   d", regex);
 		assertEquals(4, split.size());
@@ -84,12 +99,15 @@ public class StringTests {
 		assertEquals(1, split.size());
 		assertEquals("a", split.get(0));
 	}
+
+	@Test
+	public void testExplodeNull() {
+		assertEquals(0, Strings.explode(null).size());
+	}
 	
 	@Test
 	public void testExplode() {
-		List<Character> exploded = Strings.explode(null);
-		assertEquals(0, exploded.size());
-		exploded = Strings.explode("");
+		List<Character> exploded = Strings.explode("");
 		assertEquals(0, exploded.size());
 		exploded = Strings.explode("ok");
 		assertEquals(2, exploded.size());
@@ -97,6 +115,11 @@ public class StringTests {
 		assertEquals(10, exploded.size());
 	}
 
+	@Test
+	public void testReadFileNull() {
+		assertEquals(null, Strings.fromFile(null));
+	}
+	
 	@Test
 	public void testReadFile() throws Exception {
 		final String resource = System.getProperty("user.dir") + "/data/readFileExample.txt"; 
@@ -109,6 +132,11 @@ public class StringTests {
 		}
 	}
 	
+	@Test
+	public void testReadReaderNull() {
+		assertEquals(null, Strings.fromReader(null));
+	}
+	
 	@Test 
 	public void testReadReader() {
 		final String original = "Hello\n\tWorld!\n";
@@ -116,11 +144,28 @@ public class StringTests {
 		assertEquals(original, read);
 	}
 	
+	@Test
+	public void testReadStreamNull() {
+		assertEquals(null, Strings.fromInputStream(null));
+	}
+	
 	@Test 
 	public void testReadStream() {
 		final String original = "Hello\n\tWorld!\n";
 		final String read = Strings.fromInputStream(new ByteArrayInputStream(original.getBytes()));
 		assertEquals(original, read);
+	}
+
+	@Test
+	public void testInterpolateNull() {
+		Map<String, String> values = new HashMap<String, String>();
+		assertEquals(null, Strings.interpolate(null, values, "!error!"));
+		
+		String result = Strings.interpolate("welcome ${name}, to ${thing} world", null, "!missing!");
+		assertEquals("welcome !missing!, to !missing! world", result);
+
+		result = Strings.interpolate("welcome ${name}, to ${thing} world", null, null);
+		assertEquals("welcome !name!, to !thing! world", result);
 	}
 	
 	@Test
