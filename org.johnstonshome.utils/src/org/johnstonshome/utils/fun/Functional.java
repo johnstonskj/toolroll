@@ -52,7 +52,7 @@ public class Functional {
 	 * @param function the function to call for each element in the collection,
 	 *     note that {@link UnaryProcedure} has no return type.
 	 */
-	public static <V> void forEach(final Collection<V> collection, final UnaryProcedure<V> function) {
+	public static <V> void forEach(final Iterable<V> collection, final UnaryProcedure<V> function) {
 		if (collection != null && function != null) {
 			for (final V value : collection) {
 				function.call(value);
@@ -80,7 +80,7 @@ public class Functional {
 	 * @return a new collection with one element for each element in the input
 	 *     collection.
 	 */
-	public static <V1, V2> List<V2> map(final Collection<V1> collection, final UnaryFunction<V1, V2> function) {
+	public static <V1, V2> List<V2> map(final Iterable<V1> collection, final UnaryFunction<V1, V2> function) {
 		if (collection == null || function == null) {
 			return null;
 		}
@@ -106,7 +106,7 @@ public class Functional {
 	 * @return <code>true</code> if any element in the collection satisifies the
 	 *     predicate, else <code>false</code>.
 	 */
-	public static <V> boolean any(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+	public static <V> boolean any(final Iterable<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return false;
 		}
@@ -137,7 +137,7 @@ public class Functional {
 	 * @return <code>true</code> if each element in the collection satisifies the
 	 *     predicate, else <code>false</code>.
 	 */
-	public static <V> boolean every(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+	public static <V> boolean every(final Iterable<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return false;
 		}
@@ -166,7 +166,7 @@ public class Functional {
 	 * @return a new collection containing only those elements where the provided
 	 *     predicate returned <code>true</code>.
 	 */
-	public static <V> Collection<V> filter(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+	public static <V> Collection<V> filter(final Iterable<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -195,7 +195,7 @@ public class Functional {
 	 * @return a new collection containing only those elements where the provided
 	 *     predicate returned <code>false</code>.
 	 */
-	public static <V> Collection<V> remove(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+	public static <V> Collection<V> remove(final Iterable<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -226,7 +226,7 @@ public class Functional {
 	 *     satisfy the predicate and the second containing all elements that did 
 	 *     not.
 	 */
-	public static <V> List<Collection<V>> partition(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+	public static <V> List<Collection<V>> partition(final Iterable<V> collection, final UnaryPredicate<V> predicate) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -260,7 +260,7 @@ public class Functional {
 	 * @return a list of partitions, each of which is a collection of 
 	 *     <em>0..n</em> elements from the input collection.
 	 */
-	public static <V> List<Collection<V>> partitionN(final Collection<V> collection, final UnaryFunction<V, Integer> predicate, int partitions) {
+	public static <V> List<Collection<V>> partitionN(final Iterable<V> collection, final UnaryFunction<V, Integer> predicate, int partitions) {
 		if (collection == null || predicate == null) {
 			return null;
 		}
@@ -310,8 +310,8 @@ public class Functional {
 	 * @param operation the operation to apply to the values in the list.
 	 * @return the result of folding the operation into the list.
 	 */
-	public static <V> V foldLeft(final List<V> list, final BinaryFunction<V,V,V> operation) {
-		if (list == null || list.size() == 0 || operation == null) {
+	public static <V> V foldLeft(final Iterable<V> list, final BinaryFunction<V,V,V> operation) {
+		if (list == null || operation == null) {
 			return null;
 		}
 		V accumulator = null;
@@ -345,8 +345,8 @@ public class Functional {
 	 * @return the result of applying operation to the accumulator and each
 	 *     element of the list in order.
 	 */
-	public static <AV, EV> AV accumulate(final List<EV> list, final BinaryFunction<AV, AV, EV> operation, AV initial) {
-		if (list == null || list.size() == 0 || operation == null) {
+	public static <AV, EV> AV accumulate(final Iterable<EV> list, final BinaryFunction<AV, AV, EV> operation, AV initial) {
+		if (list == null || operation == null) {
 			return null;
 		}
 		AV accumulator = initial;
@@ -376,7 +376,7 @@ public class Functional {
 	 * @return the result of folding the operation into the list.
 	 */
 	public static <V> V foldRight(final List<V> list, final BinaryFunction<V,V,V> operation) {
-		if (list == null || list.size() == 0 || operation == null) {
+		if (list == null || operation == null) {
 			return null;
 		}
 		V accumulator = null;
@@ -472,5 +472,32 @@ public class Functional {
 			results.push(list.get(i));
 		}
 		return results;
+	}
+	
+	/**
+	 * Flatten a list of lists into a single list, this is ordered based on
+	 * the order of the lists themselves.
+	 * 
+     * If <em>lists</em> is <code>null</code> then the function will return 
+     * <code>null</code> immediately.
+	 * 
+	 * @param <T> the element type for each element in both the input 
+     *     and output collections. 
+	 * @param lists an ordered list of lists
+	 * @return a single, flattened, list
+	 */
+	public static <T> List<T> flatten(final Iterable<Iterable<T>> lists) {
+	    if (lists == null) {
+	        return null;
+	    }
+	    List<T> result = new LinkedList<T>();
+	    for (Iterable<T> list : lists) {
+	        if (list != null) {
+	            for (T item : list) {
+                    result.add(item);
+	            }
+	        }
+	    }
+	    return result;
 	}
 }

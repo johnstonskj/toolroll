@@ -25,7 +25,7 @@ import org.junit.runners.Suite;
 	MapTests.class,
 	PairTests.class,
 	StringTests.class,
-	NumberTest.class,
+	NumberTests.class,
 	PromiseTests.class
 })
 public class AllTests {

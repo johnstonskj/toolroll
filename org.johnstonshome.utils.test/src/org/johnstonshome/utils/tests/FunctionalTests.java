@@ -58,7 +58,7 @@ public class FunctionalTests {
 
 	@Test
 	public void testMapNull() {
-		List<Integer> results = Functional.map(null, new UnaryFunction<String, Integer>() {
+	    Collection<Integer> results = Functional.map(null, new UnaryFunction<String, Integer>() {
 			@Override
 			public Integer call(String value) {
 				return Integer.valueOf(value.length());
@@ -231,7 +231,7 @@ public class FunctionalTests {
 		final String[] array = {"o", "l", "l", "e", "h"};
 		final List<String> test = Arrays.asList(array);
 		
-		sum = Functional.foldRight(test,null);
+		sum = Functional.foldRight(test, null);
 		assertEquals(null, sum);
 	}
 	
@@ -298,4 +298,23 @@ public class FunctionalTests {
 		});
 		assertEquals("hello", sum);
 	}
+
+    @Test
+    public void testFlattenNull() {
+        assertEquals(null, Functional.flatten(null));
+    }
+    
+    @Test
+    public void testFlatten() {
+        final Integer[] array1 = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)};
+        final List<Integer> list1 = Arrays.asList(array1);
+        final Integer[] array2 = {Integer.valueOf(5), Integer.valueOf(6), Integer.valueOf(7)};
+        final List<Integer> list2 = Arrays.asList(array2);
+        final List<Iterable<Integer>> input = new LinkedList<Iterable<Integer>>();
+        input.add(list1);
+        input.add(list2);
+        
+        List<Integer> result = Functional.flatten(input);
+        assertEquals(7, result.size());
+    }
 }
