@@ -29,6 +29,19 @@ import org.junit.Test;
  *
  */
 public class FunctionalTests {
+
+	@Test
+	public void testForEachNull() {		
+		Functional.forEach(null, new UnaryProcedure<String>() {
+			@Override
+			public void call(String value) {
+				// do nothing
+			}
+		});
+
+		final List<String> test = Strings.split("1,b,c,d,e", ",");
+		Functional.forEach(test, null);
+	}
 	
 	@Test
 	public void testForEach() {
@@ -44,6 +57,20 @@ public class FunctionalTests {
 	}
 
 	@Test
+	public void testMapNull() {
+		List<Integer> results = Functional.map(null, new UnaryFunction<String, Integer>() {
+			@Override
+			public Integer call(String value) {
+				return Integer.valueOf(value.length());
+			}
+		});
+		assertEquals(null, results);
+		final List<String> test = Strings.split("a,bb,ccc,dddd,eeeee", ",");
+		results = Functional.map(test, null); 
+		assertEquals(null, results);
+	}
+	
+	@Test
 	public void testMap() {
 		final List<String> test = Strings.split("a,bb,ccc,dddd,eeeee", ",");
 		
@@ -58,10 +85,25 @@ public class FunctionalTests {
 			assertEquals(i+1, results.get(i).intValue()); 
 		}
 	}
+
+	@Test
+	public void testAnyNull() {		
+		boolean result = Functional.any(null, new UnaryPredicate<String>() {
+			@Override
+			public Boolean call(String value) {
+				return Boolean.valueOf(value.equals("d"));
+			}
+		});
+		assertFalse(result);
+		
+		final List<String> test = Strings.split("1,b,c,d,e", ",");
+		result = Functional.any(test, null); 
+		assertFalse(result);
+	}
 	
 	@Test
 	public void testAny() {		
-		List<String> test = Strings.split("1,b,c,d,e", ",");
+		final List<String> test = Strings.split("1,b,c,d,e", ",");
 		
 		final boolean result = Functional.any(test, new UnaryPredicate<String>() {
 			@Override
@@ -81,8 +123,23 @@ public class FunctionalTests {
 	}
 
 	@Test
+	public void testAllNull() {		
+		boolean result = Functional.every(null, new UnaryPredicate<String>() {
+			@Override
+			public Boolean call(String value) {
+				return Boolean.valueOf(value.equals("d"));
+			}
+		});
+		assertFalse(result);	
+
+		final List<String> test = Strings.split("d,d,d,d,d", ",");
+		result = Functional.every(test, null);
+		assertFalse(result);	
+	}
+	
+	@Test
 	public void testAll() {		
-		List<String> test = Strings.split("d,d,d,d,d", ",");
+		final List<String> test = Strings.split("d,d,d,d,d", ",");
 		
 		final boolean result = Functional.every(test, new UnaryPredicate<String>() {
 			@Override
@@ -100,10 +157,25 @@ public class FunctionalTests {
 		});
 		assertFalse(result2);
 	}
+
+	@Test
+	public void testFilterNull() {		
+		Collection<String> result = Functional.filter(null, new UnaryPredicate<String>() {
+			@Override
+			public Boolean call(String value) {
+				return Boolean.valueOf(value.equals("d"));
+			}
+		});
+		assertEquals(null, result);
+		
+		final List<String> test = Strings.split("d,b,c,d,e", ",");
+		result = Functional.filter(test, null);
+		assertEquals(null, result);
+	}
 	
 	@Test
 	public void testFilter() {		
-		List<String> test = Strings.split("d,b,c,d,e", ",");
+		final List<String> test = Strings.split("d,b,c,d,e", ",");
 		
 		final Collection<String> result = Functional.filter(test, new UnaryPredicate<String>() {
 			@Override
@@ -115,10 +187,27 @@ public class FunctionalTests {
 	}
 
 	@Test
-	public void testFoldl() {
-		Integer[] array = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
+	public void testFoldlNull() {
+		Integer sum = Functional.foldLeft(null, new BinaryFunction<Integer,Integer,Integer>() {
+			@Override
+			public Integer call(Integer lhs, Integer rhs) {
+				return Integer.valueOf(lhs.intValue() + rhs.intValue());
+			}
+		});
+		assertEquals(null, sum);
+		
+		final Integer[] array = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
 				Integer.valueOf(4), Integer.valueOf(5)};
-		List<Integer> test = Arrays.asList(array);
+		final List<Integer> test = Arrays.asList(array);
+		sum = Functional.foldLeft(test, null);
+		assertEquals(null, sum);
+	}
+	
+	@Test
+	public void testFoldl() {
+		final Integer[] array = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
+				Integer.valueOf(4), Integer.valueOf(5)};
+		final List<Integer> test = Arrays.asList(array);
 		
 		final Integer sum = Functional.foldLeft(test, new BinaryFunction<Integer,Integer,Integer>() {
 			@Override
@@ -130,9 +219,26 @@ public class FunctionalTests {
 	}
 
 	@Test
+	public void testFoldrNull() {
+		String sum = Functional.foldRight(null, new BinaryFunction<String,String,String>() {
+			@Override
+			public String call(String lhs, String rhs) {
+				return lhs + rhs;
+			}
+		});
+		assertEquals(null, sum);
+		
+		final String[] array = {"o", "l", "l", "e", "h"};
+		final List<String> test = Arrays.asList(array);
+		
+		sum = Functional.foldRight(test,null);
+		assertEquals(null, sum);
+	}
+	
+	@Test
 	public void testFoldr() {
-		String[] array = {"o", "l", "l", "e", "h"};
-		List<String> test = Arrays.asList(array);
+		final String[] array = {"o", "l", "l", "e", "h"};
+		final List<String> test = Arrays.asList(array);
 		
 		final String sum = Functional.foldRight(test, new BinaryFunction<String,String,String>() {
 			@Override
@@ -144,12 +250,23 @@ public class FunctionalTests {
 	}
 	
 	@Test
+	public void testZipNull() {
+		assertEquals(null, Functional.zip(null));
+		
+		final List<List<Integer>> input = new LinkedList<List<Integer>>();
+		input.add(null);
+		input.add(null);
+		assertEquals(2, input.size());
+		assertEquals(null, Functional.zip(input));
+	}
+	
+	@Test
 	public void testZip() {
-		Integer[] array1 = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)};
-		List<Integer> list1 = Arrays.asList(array1);
-		Integer[] array2 = {Integer.valueOf(5), Integer.valueOf(6), Integer.valueOf(7)};
-		List<Integer> list2 = Arrays.asList(array2);
-		List<List<Integer>> input = new LinkedList<List<Integer>>();
+		final Integer[] array1 = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3), Integer.valueOf(4)};
+		final List<Integer> list1 = Arrays.asList(array1);
+		final Integer[] array2 = {Integer.valueOf(5), Integer.valueOf(6), Integer.valueOf(7)};
+		final List<Integer> list2 = Arrays.asList(array2);
+		final List<List<Integer>> input = new LinkedList<List<Integer>>();
 		input.add(list1);
 		input.add(list2);
 		
@@ -159,15 +276,20 @@ public class FunctionalTests {
 			assertEquals(2, collection.size());
 		}
 	}
+
+	@Test
+	public void testReverseNull() {
+		assertEquals(null, Functional.reverse(null));
+	}
 	
 	@Test
 	public void testReverse() {
-		String[] array = {"o", "l", "l", "e", "h"};
-		List<String> test = Arrays.asList(array);
+		final String[] array = {"o", "l", "l", "e", "h"};
+		final List<String> test = Arrays.asList(array);
 		/*
 		 * shows foldr(l) == foldl(reverse(l))
 		 */
-		List<String> result = Functional.reverse(test);
+		final List<String> result = Functional.reverse(test);
 		final String sum = Functional.foldLeft(result, new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {

@@ -86,7 +86,6 @@ public class PairTests {
 		assertFalse(one.toString().equals(two.toString()));
 		
 		two.setValue("value");
-		assertTrue(one.toString().equals(two.toString()));
-		
+		assertTrue(one.toString().equals(two.toString()));		
 	}
 }

@@ -250,6 +250,9 @@ public class Strings {
      * @return the string contents of the file, or <code>null</code> on error.
      */
     public static String fromFile(final File file) {
+    	if (file == null) {
+    		return null;
+    	}
         try {
             return fromReader(new FileReader(file));
         } catch (FileNotFoundException e) {
