@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.johnstonshome.utils.lang.Pair;
+
 /**
  * A set of functions that allow Map-like structures (structures that map 
  * keys to values, including {@link Map}, {@link Dictionary}, and 

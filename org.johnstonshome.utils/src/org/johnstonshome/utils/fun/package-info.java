@@ -11,7 +11,7 @@
  * functions provided in many true functional languages. Additionally the 
  * {@link org.johnstonshome.utils.fun.Maps} class provides the ability to 
  * convert {@link java.util.Map} instances to and from a {@link java.util.List}
- * of {@link org.johnstonshome.utils.fun.Pair}s. This allows maps (as well as
+ * of {@link org.johnstonshome.utils.lang.Pair}s. This allows maps (as well as
  * dictionaries and properties) to be dealt with as lists and therefore the
  * rest of the {@link org.johnstonshome.utils.fun.Functional} tools to 
  * be used.

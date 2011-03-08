@@ -6,9 +6,9 @@
  * distribution of this code.
  * 
  */
-package org.johnstonshome.utils.fun;
+package org.johnstonshome.utils.lang;
 
-import org.johnstonshome.utils.lang.Validate;
+import org.johnstonshome.utils.fun.Maps;
 
 /**
  * Models a typical key/value pair and used to expand elements in Map-like
