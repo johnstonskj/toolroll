@@ -31,7 +31,7 @@ public class PromiseTests {
 			@Override
 			public Integer call(String value) {
 				System.out.println("HELLO " + value);
-				return 101;
+				return Integer.valueOf(101);
 			}
 		}).then(new UnaryProcedure<Integer>() {
 			@Override
@@ -55,7 +55,7 @@ public class PromiseTests {
 			@Override
 			public Integer call(String value) {
 				System.out.println(Thread.currentThread().getId() + " HELLO " + value);
-				return 101;
+				return Integer.valueOf(101);
 			}
 		},
 		new UnaryProcedure<Throwable>() {

@@ -33,15 +33,15 @@ public class FunctionWrapperTests {
 		BinaryFunction<Integer, Integer, Integer> plus = new BinaryFunction<Integer, Integer, Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
-				return lhs + rhs;
+				return Integer.valueOf(lhs.intValue() + rhs.intValue());
 			}
 		};
 		
 		UnaryFunction<Integer, Integer> plus2 = 
-			new CurriedBinaryFunction<Integer, Integer, Integer>(plus, 2);
+			new CurriedBinaryFunction<Integer, Integer, Integer>(plus, Integer.valueOf(2));
 		
-		assertEquals(Integer.valueOf(4), plus2.call(2));
-		assertEquals(Integer.valueOf(102), plus2.call(100));
+		assertEquals(Integer.valueOf(4), plus2.call(Integer.valueOf(2)));
+		assertEquals(Integer.valueOf(102), plus2.call(Integer.valueOf(100)));
 	}
 
 	@Test
@@ -49,15 +49,15 @@ public class FunctionWrapperTests {
 		UnaryFunction<Integer, Integer> square = new UnaryFunction<Integer, Integer>() {
 			@Override
 			public Integer call(Integer value) {
-				return value * value;
+				return Integer.valueOf(value.intValue() * value.intValue());
 			}
 		};
 		
 		List<Integer> input = new LinkedList<Integer>();
-		input.add(2);
-		input.add(4);
-		input.add(6);
-		input.add(8);
+		input.add(Integer.valueOf(2));
+		input.add(Integer.valueOf(4));
+		input.add(Integer.valueOf(6));
+		input.add(Integer.valueOf(8));
 		
 		List<Integer> output = Map.curry(square).call(input);
 		

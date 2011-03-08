@@ -40,8 +40,7 @@ public class Remove<V> implements BinaryFunction<Collection<V>, Collection<V>, U
 	 * Curry this BinaryFunction into a UnaryFunction by storing the original UnaryFunction
 	 * used by map to call each element in the list.
 	 * 
-	 * @param <V1> the element type for each element in the input collection
-	 * @param <V2> the element type for each element in the output collection
+	 * @param <V> the element type for each element in the input collection
 	 * @param function the function to call for each element in the 
 	 *     collection, its result is stored in the returned collection.
 	 * @return a curried form of this wrapper with the function stored

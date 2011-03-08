@@ -8,20 +8,20 @@
  */
 package org.johnstonshome.utils.par;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.johnstonshome.utils.fun.BinaryFunction;
-import org.johnstonshome.utils.fun.UnaryFunction;
-import org.johnstonshome.utils.fun.ValueFunction;
-import org.johnstonshome.utils.fun.UnaryProcedure;
-
+/**
+ * @author Simon Johnston (simon@johnstonshome.org)
+ *
+ */
 public class Parallel {
 	
+	@SuppressWarnings("unused")
 	private static ThreadPoolExecutor DEFAULT_EXECUTOR;
+	@SuppressWarnings("unused")
 	private static int DEFAULT_SLICE_SIZE = 500;
 	
 	static {
@@ -42,7 +42,7 @@ public class Parallel {
 		public E element;
 		public int index;
 	}
-	
+	/*
 	public static <V> void forEach(List<V> collection, UnaryProcedure<V> function) {
 		forEach(collection, function, DEFAULT_SLICE_SIZE, DEFAULT_EXECUTOR);
 	}
@@ -70,5 +70,5 @@ public class Parallel {
 	public static <V> Promise<V> foldr(List<V> collection, BinaryFunction<V,V,V> operation) {
 		return null;
 	}
-
+	*/
 }

@@ -12,21 +12,33 @@ import org.johnstonshome.utils.fun.UnaryPredicate;
 import org.johnstonshome.utils.lang.Validate;
 
 /**
+ * Provides functional Less Than predicate.
+ *  
  * @author Simon Johnston (simon@johnstonshome.org)
- *
+ * 
+ * @param <V> the value type for the operands
  */
 public class LT<V extends Comparable<? super V>> implements UnaryPredicate<V> {
 
 	private V rhs;
 	
+	/**
+	 * Construct a new predicate with a specific value to test against
+	 * 
+	 * @param rhs the value to test against
+	 */
 	public LT(V rhs) {
 		Validate.isNotNull("rhs", rhs);
 		this.rhs = rhs;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see org.johnstonshome.utils.fun.UnaryFunction#call(java.lang.Object)
+	 */
 	@Override
 	public Boolean call(V lhs) {
-		return (lhs.compareTo(this.rhs) < 0);
+		return Boolean.valueOf(lhs.compareTo(this.rhs) < 0);
 	}
 
 }

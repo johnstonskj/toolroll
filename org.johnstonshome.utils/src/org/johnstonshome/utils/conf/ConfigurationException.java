@@ -19,6 +19,11 @@ public class ConfigurationException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Construct a new exception with a message string
+     * 
+     * @param message the message that describes the specific error
+     */
     public ConfigurationException(String message) {
         super(message);
     }

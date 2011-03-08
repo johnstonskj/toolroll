@@ -24,6 +24,13 @@ public class UnaryFunctionSequence<V1, V2> implements UnaryFunction<V1, V2> {
 	private UnaryProcedure<Throwable> errorHandler;
 	private UnaryFunctionSequence<V2, ?> next;
 
+	/**
+	 * Schedule a new function to be called on the completion of this function.
+	 *  
+	 * @param <V3> the type of the return from the next unary function
+	 * @param handler the actual function
+	 * @return a new unary function sequence
+	 */
 	@SuppressWarnings("unchecked")
 	public <V3> UnaryFunctionSequence<V3,V2> then(UnaryFunction<V1, V3> handler) {
 		Validate.isNotNull("handler", handler);
@@ -32,6 +39,14 @@ public class UnaryFunctionSequence<V1, V2> implements UnaryFunction<V1, V2> {
 		return (UnaryFunctionSequence<V3,V2>) this.next;
 	}
 	
+	/**
+	 * Schedule a new function to be called on the completion of this function.
+	 *  
+	 * @param <V3> the type of the return from the next unary function
+	 * @param handler the actual function
+	 * @param errorHandler a function to be called on error
+	 * @return a new unary function sequence
+	 */
 	@SuppressWarnings("unchecked")
 	public <V3> UnaryFunctionSequence<V3,V2> then(UnaryFunction<V1, V3> handler, UnaryProcedure<Throwable> errorHandler) {
 		Validate.isNotNull("handler", handler);
@@ -42,6 +57,10 @@ public class UnaryFunctionSequence<V1, V2> implements UnaryFunction<V1, V2> {
 		return (UnaryFunctionSequence<V3,V2>) this.next;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.johnstonshome.utils.fun.UnaryFunction#call(java.lang.Object)
+	 */
 	@Override
 	public V2 call(V1 value) {
 		V2 response = null;

@@ -137,13 +137,13 @@ public class Functional {
 	 * @return <code>true</code> if each element in the collection satisifies the
 	 *     predicate, else <code>false</code>.
 	 */
-	public static <V> boolean every(final Collection<V> collection, final UnaryPredicate<V> function) {
-		if (collection == null || function == null) {
+	public static <V> boolean every(final Collection<V> collection, final UnaryPredicate<V> predicate) {
+		if (collection == null || predicate == null) {
 			return false;
 		}
 		boolean result = true;
 		for (V value : collection) {
-			if (!function.call(value).booleanValue()) {
+			if (!predicate.call(value).booleanValue()) {
 				result = false;
 				break;
 			}
@@ -260,8 +260,8 @@ public class Functional {
 	 * @return a list of partitions, each of which is a collection of 
 	 *     <em>0..n</em> elements from the input collection.
 	 */
-	public static <V> List<Collection<V>> partitionN(final Collection<V> collection, final UnaryFunction<V, Integer> function, int partitions) {
-		if (collection == null || function == null) {
+	public static <V> List<Collection<V>> partitionN(final Collection<V> collection, final UnaryFunction<V, Integer> predicate, int partitions) {
+		if (collection == null || predicate == null) {
 			return null;
 		}
 		List<Collection<V>> result = new ArrayList<Collection<V>>();
@@ -270,7 +270,7 @@ public class Functional {
 		}
 		if (partitions > 0) {
 			for (V value : collection) {
-				final int partition = function.call(value);
+				final int partition = predicate.call(value).intValue();
 				if (partition < partitions) {
 					result.get(partition).add(value);
 				} else {
@@ -326,7 +326,7 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@see #foldLeft(List, BinaryFunction)}, however this computes an
+	 * Similar to {@link #foldLeft(List, BinaryFunction)}, however this computes an
 	 * alternate accumulated value. In this case the initial value for the 
 	 * accumulator is passed in, and the operation will therefore be provided
 	 * the current value of the accumulator and the current element value and
@@ -357,7 +357,7 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@see #foldLeft(List, BinaryFunction)}, however this function 
+	 * Similar to {@link #foldLeft(List, BinaryFunction)}, however this function 
 	 * folds the operator into the list from right to left rather than
 	 * from left to right. It can be shown that the two functions are 
 	 * related in the following manner:
@@ -447,7 +447,7 @@ public class Functional {
 	 * If either <em>collection</em> or <em>function</em> is <code>null</code>
 	 * then the function will return <code>null</code> immediately.
 	 * 
-	 * @param <V> the element type for each element in both the input 
+	 * @param <T> the element type for each element in both the input 
 	 *     and output collections. 
 	 * @param list an ordered list of elements.
 	 * @return a new list in reverse order 
@@ -457,10 +457,8 @@ public class Functional {
 			return null;
 		}
 		Stack<T> results = new Stack<T>();
-		if (list != null) {
-			for (int i = list.size()-1; i >= 0; i--) {
-				results.push(list.get(i));
-			}
+		for (int i = list.size()-1; i >= 0; i--) {
+			results.push(list.get(i));
 		}
 		return results;
 	}

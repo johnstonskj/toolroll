@@ -10,7 +10,9 @@ package org.johnstonshome.utils.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.johnstonshome.utils.lang.Strings;
@@ -90,4 +92,24 @@ public class StringTests {
 		assertEquals(10, exploded.size());
 	}
 
+	@Test
+	public void testReadFile() {
+		// TODO: test fromFile, fromInputStream, and fromReader
+	}
+	
+	@Test
+	public void testInterpolate() {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("name", "simon");
+		values.put("thing", "one");
+		
+		String result = Strings.interpolate("welcome to my world", values, "!error!");
+		assertEquals("welcome to my world", result);
+		
+		result = Strings.interpolate("welcome ${name}, to ${thing} world", values, "!error!");
+		assertEquals("welcome simon, to one world", result);
+
+		result = Strings.interpolate("welcome ${name}, to ${thing} ${bad}", values, "!error!");
+		assertEquals("welcome simon, to one !error!", result);
+	}
 }

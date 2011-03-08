@@ -8,9 +8,18 @@
  */
 package org.johnstonshome.utils.lang;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +39,12 @@ public class Strings {
 	 */
 	public static final String EMPTY = "";
 	
+	/**
+	 * Denotes the standard line separator, or end-of-line character.
+	 */
+    public static final String EOL   = System.getProperty("line.separator");
+
+    
 	/**
 	 * Determine whether the string is empty, which includes null.
 	 * 
@@ -54,9 +69,9 @@ public class Strings {
 		if (source == null || sep == null) {
 			return null;
 		}
-		List<String> list = new LinkedList<String>();
+		final List<String> list = new LinkedList<String>();
 		if (!isEmpty(source)) {
-			StringTokenizer tokenizer = new StringTokenizer(source, sep, false);
+			final StringTokenizer tokenizer = new StringTokenizer(source, sep, false);
 			while (tokenizer.hasMoreTokens()) {
 				list.add((String)tokenizer.nextElement());
 			}
@@ -80,7 +95,7 @@ public class Strings {
 		}
 		List<String> list = new LinkedList<String>();
 		if (!isEmpty(source)) {
-			Matcher matcher = sep.matcher(source);
+			final Matcher matcher = sep.matcher(source);
 			int start = 0;
 			while (matcher.find(start)) {
 				list.add(source.substring(start, matcher.start()));
@@ -103,8 +118,8 @@ public class Strings {
 		if (strings == null) {
 			return null;
 		}
-		StringBuilder builder = new StringBuilder();
-		final int last = strings.size() -1;
+		final StringBuilder builder = new StringBuilder();
+		final int           last    = strings.size() -1;
 		for (int i = 0; i < strings.size(); i++) {
 			builder.append(strings.get(i));
 			if (i < last) {
@@ -122,9 +137,9 @@ public class Strings {
 	 * @param string a string to convert into a character list
 	 * @return a list containing the characters of the string.
 	 */
-	public static final List<Character> explode(String string) {
-		List<Character> results = new ArrayList<Character>(string == null ? 0 : string.length());
-		if (!isEmpty(string)) {
+	public static final List<Character> explode(final String string) {
+		final List<Character> results = new ArrayList<Character>(string == null ? 0 : string.length());
+		if (string != null && !isEmpty(string)) {
 			final char[] chars = string.toCharArray();
 			for (final char next : chars) {
 				results.add(new Character(next));
@@ -132,5 +147,89 @@ public class Strings {
 		}
 		return results;
 	}
+
+	/**
+     * Interpolate a string, that is to extract variable references in
+     * a template and replace them from a context. The context in this case
+     * is a Map.
+	 * 
+	 * @param <V> the type of values in the variable map, usually
+	 *           String or Object
+	 * @param template the template string containing variables.
+	 * @param values values that may be inserted into the template
+	 * @param defaultValue a defaultValue if no value is found for a variable
+	 * @return the expanded form of the template
+	 */
+    public static <V> String interpolate(final String template, final Map<String, V> values, final String defaultValue) {
+        final Pattern       VARIABLE = Pattern.compile("\\$\\{([^\\}]+)\\}");
+        final Matcher       matcher  = VARIABLE.matcher(template);
+        final StringBuilder output   = new StringBuilder();
+        
+        int start = 0;
+        while (matcher.find()) {
+            if (matcher.start() - start > 0) {
+                output.append(template.substring(start, matcher.start()));
+            }
+            final String mapKey = matcher.group(1);
+            if (values.containsKey(mapKey)) {
+                output.append(values.get(mapKey).toString());
+            } else {
+            	output.append(defaultValue);
+            }
+            start = matcher.end();
+        }
+        if (start < template.length()) {
+            output.append(template.substring(start));
+        }
+        return output.toString();
+    }
+
+    /**
+     * Read a file entirely into a string value, the caller is responsible
+     * for ensuring that the file is representable as a string.
+     * 
+     * @param file the file to read from
+     * @return the string contents of the file, or <code>null</code> on error.
+     */
+    public static String fromFile(final File file) {
+        try {
+            return fromReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Read a stream entirely into a string value, the caller is responsible
+     * for ensuring that the stream is representable as a string.
+     * 
+     * @param stream the stream to read from
+     * @return the string contents of the stream, or <code>null</code> on error.
+     */
+    public static String fromInputStream(final InputStream stream) {
+        return fromReader(new InputStreamReader(stream));
+    }
+    
+    /**
+     * Read from a <em>reader</em> entirely into a string value, the caller is responsible
+     * for ensuring that the reader is representable as a string.
+     * 
+     * @param reader the reader to read from
+     * @return the string contents of the reader, or <code>null</code> on error.
+     */
+    public static String fromReader(final Reader reader) {
+        final BufferedReader buffered = new BufferedReader(reader);
+        final StringBuilder  builder  = new StringBuilder();
+        String               line     = null;
+        try {
+            while ((line = buffered.readLine()) != null) {
+                builder.append(line);
+                builder.append(EOL);
+            }
+            return builder.toString();        
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
 }
