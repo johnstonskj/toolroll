@@ -11,7 +11,7 @@ package org.johnstonshome.utils.funs;
 import java.util.Collection;
 import java.util.List;
 
-import org.johnstonshome.utils.fun.CurriedBinaryFunction;
+import org.johnstonshome.utils.fun.PartialBinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
 import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.BinaryFunction;
@@ -47,9 +47,9 @@ public class Map<V1, V2> implements BinaryFunction<List<V2>, Collection<V1>, Una
 	 *     collection, its result is stored in the returned collection.
 	 * @return a curried form of this wrapper with the function stored
 	 */
-	public static <V1,V2> CurriedBinaryFunction<List<V2>, Collection<V1>, UnaryFunction<V1, V2>> 
+	public static <V1,V2> PartialBinaryFunction<List<V2>, Collection<V1>, UnaryFunction<V1, V2>> 
 		curry(UnaryFunction<V1, V2> function) {
-		return new CurriedBinaryFunction<List<V2>, Collection<V1>, UnaryFunction<V1, V2>>(new Map<V1, V2>(), function);
+		return new PartialBinaryFunction<List<V2>, Collection<V1>, UnaryFunction<V1, V2>>(new Map<V1, V2>(), function);
 	}
 
 }

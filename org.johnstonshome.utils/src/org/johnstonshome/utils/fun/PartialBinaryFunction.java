@@ -10,7 +10,7 @@ import static org.johnstonshome.utils.lang.Validate.*;
  * @param <V2> the type if the first parameter to the binary function
  * @param <V3> the type if the curried second parameter to the binary function
  */
-public class CurriedBinaryFunction<V1, V2, V3> implements UnaryFunction<V2, V1> {
+public class PartialBinaryFunction<V1, V2, V3> implements UnaryFunction<V2, V1> {
 
 	private BinaryFunction<V1,V2,V3> operation;
 	private V3 rhs;
@@ -22,7 +22,7 @@ public class CurriedBinaryFunction<V1, V2, V3> implements UnaryFunction<V2, V1> 
 	 * @param operation the binary function to curry
 	 * @param rhs the new unary function 
 	 */
-	public CurriedBinaryFunction(BinaryFunction<V1,V2,V3> operation, V3 rhs) {
+	public PartialBinaryFunction(BinaryFunction<V1,V2,V3> operation, V3 rhs) {
 		isNotNull("operation", operation);
 		isNotNull("rhs", rhs);
 		this.operation = operation;

@@ -188,18 +188,19 @@ public class FunctionalTests {
 
 	@Test
 	public void testFoldlNull() {
-		Integer sum = Functional.foldLeft(null, new BinaryFunction<Integer,Integer,Integer>() {
+		Integer sum = Functional.foldLeftOne(new BinaryFunction<Integer,Integer,Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
 				return Integer.valueOf(lhs.intValue() + rhs.intValue());
 			}
-		});
+		},
+		null);
 		assertEquals(null, sum);
 		
 		final Integer[] array = {Integer.valueOf(1), Integer.valueOf(2), Integer.valueOf(3),
 				Integer.valueOf(4), Integer.valueOf(5)};
 		final List<Integer> test = Arrays.asList(array);
-		sum = Functional.foldLeft(test, null);
+		sum = Functional.foldLeftOne(null, test);
 		assertEquals(null, sum);
 	}
 	
@@ -209,29 +210,31 @@ public class FunctionalTests {
 				Integer.valueOf(4), Integer.valueOf(5)};
 		final List<Integer> test = Arrays.asList(array);
 		
-		final Integer sum = Functional.foldLeft(test, new BinaryFunction<Integer,Integer,Integer>() {
+		final Integer sum = Functional.foldLeftOne(new BinaryFunction<Integer,Integer,Integer>() {
 			@Override
 			public Integer call(Integer lhs, Integer rhs) {
 				return Integer.valueOf(lhs.intValue() + rhs.intValue());
 			}
-		});
+		},
+		test);
 		assertEquals(15, sum.intValue());
 	}
 
 	@Test
 	public void testFoldrNull() {
-		String sum = Functional.foldRight(null, new BinaryFunction<String,String,String>() {
+		String sum = Functional.foldRightOne(new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {
 				return lhs + rhs;
 			}
-		});
+		},
+		null);
 		assertEquals(null, sum);
 		
 		final String[] array = {"o", "l", "l", "e", "h"};
 		final List<String> test = Arrays.asList(array);
 		
-		sum = Functional.foldRight(test, null);
+		sum = Functional.foldRightOne(null, test);
 		assertEquals(null, sum);
 	}
 	
@@ -240,12 +243,13 @@ public class FunctionalTests {
 		final String[] array = {"o", "l", "l", "e", "h"};
 		final List<String> test = Arrays.asList(array);
 		
-		final String sum = Functional.foldRight(test, new BinaryFunction<String,String,String>() {
+		final String sum = Functional.foldRightOne(new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {
 				return lhs + rhs;
 			}
-		});
+		},
+		test);
 		assertEquals("hello", sum);
 	}
 	
@@ -290,12 +294,13 @@ public class FunctionalTests {
 		 * shows foldr(l) == foldl(reverse(l))
 		 */
 		final List<String> result = Functional.reverse(test);
-		final String sum = Functional.foldLeft(result, new BinaryFunction<String,String,String>() {
+		final String sum = Functional.foldLeftOne(new BinaryFunction<String,String,String>() {
 			@Override
 			public String call(String lhs, String rhs) {
 				return lhs + rhs;
 			}
-		});
+		},
+		result);
 		assertEquals("hello", sum);
 	}
 

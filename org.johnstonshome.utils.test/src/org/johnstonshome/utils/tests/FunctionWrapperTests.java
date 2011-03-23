@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.johnstonshome.utils.fun.CurriedBinaryFunction;
+import org.johnstonshome.utils.fun.PartialBinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
 import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.BinaryFunction;
@@ -38,7 +38,7 @@ public class FunctionWrapperTests {
 		};
 		
 		UnaryFunction<Integer, Integer> plus2 = 
-			new CurriedBinaryFunction<Integer, Integer, Integer>(plus, Integer.valueOf(2));
+			new PartialBinaryFunction<Integer, Integer, Integer>(plus, Integer.valueOf(2));
 		
 		assertEquals(Integer.valueOf(4), plus2.call(Integer.valueOf(2)));
 		assertEquals(Integer.valueOf(102), plus2.call(Integer.valueOf(100)));

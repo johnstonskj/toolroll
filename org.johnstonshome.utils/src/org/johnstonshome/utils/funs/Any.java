@@ -10,7 +10,7 @@ package org.johnstonshome.utils.funs;
 
 import java.util.Collection;
 
-import org.johnstonshome.utils.fun.CurriedBinaryFunction;
+import org.johnstonshome.utils.fun.PartialBinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
 import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.BinaryFunction;
@@ -45,8 +45,8 @@ public class Any<V> implements BinaryFunction<Boolean, Collection<V>, UnaryPredi
 	 *     collection.
 	 * @return a curried form of this wrapper with the function stored
 	 */
-	public static <V> CurriedBinaryFunction<Boolean, Collection<V>, UnaryPredicate<V>>
+	public static <V> PartialBinaryFunction<Boolean, Collection<V>, UnaryPredicate<V>>
 		curry(UnaryPredicate<V> function) {
-		return new CurriedBinaryFunction<Boolean, Collection<V>, UnaryPredicate<V>>(new Any<V>(), function);
+		return new PartialBinaryFunction<Boolean, Collection<V>, UnaryPredicate<V>>(new Any<V>(), function);
 	}
 }

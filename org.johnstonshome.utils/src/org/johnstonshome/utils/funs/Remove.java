@@ -10,7 +10,7 @@ package org.johnstonshome.utils.funs;
 
 import java.util.Collection;
 
-import org.johnstonshome.utils.fun.CurriedBinaryFunction;
+import org.johnstonshome.utils.fun.PartialBinaryFunction;
 import org.johnstonshome.utils.fun.Functional;
 import org.johnstonshome.utils.fun.UnaryFunction;
 import org.johnstonshome.utils.fun.BinaryFunction;
@@ -45,9 +45,9 @@ public class Remove<V> implements BinaryFunction<Collection<V>, Collection<V>, U
 	 *     collection, its result is stored in the returned collection.
 	 * @return a curried form of this wrapper with the function stored
 	 */
-	public static <V> CurriedBinaryFunction<Collection<V>, Collection<V>, UnaryPredicate<V>> 
+	public static <V> PartialBinaryFunction<Collection<V>, Collection<V>, UnaryPredicate<V>> 
 		curry(UnaryPredicate<V> function) {
-		return new CurriedBinaryFunction<Collection<V>, Collection<V>, UnaryPredicate<V>>(new Remove<V>(), function);
+		return new PartialBinaryFunction<Collection<V>, Collection<V>, UnaryPredicate<V>>(new Remove<V>(), function);
 	}
 
 }
