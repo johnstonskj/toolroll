@@ -23,10 +23,11 @@ import org.junit.runners.Suite;
 	FunctionWrapperTests.class,
 	FunctionSequenceTests.class,
 	MapTests.class,
+    MaybeTests.class,
+    NumberTests.class,
 	PairTests.class,
-	StringTests.class,
-	NumberTests.class,
-	PromiseTests.class
+    PromiseTests.class,
+	StringTests.class
 })
 public class AllTests {
 	// nothing further required

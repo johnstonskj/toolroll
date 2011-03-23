@@ -298,26 +298,31 @@ public class Functional {
 	 * 1 + 2 + 3 + 4 + 5
 	 * </pre>
 	 * 
-	 * Note also that as this can be expressed in an entirely recursive manner 
-	 * there is no need for the operation itself to maintain any state.
+	 * This differs from {@link #foldLeft(BinaryFunction, Object, Iterable)} in
+	 * that it does not take an initial value, it folds only those items in the 
+	 * list which does require that the list have size > 1.
 	 * 
 	 * If either <em>collection</em> or <em>function</em> is <code>null</code>
 	 * then the function will return <code>null</code> immediately.
 	 * 
-	 * @param <V> the element type for each element in the input collection and 
-	 *     the type of the output value. 
-	 * @param list an ordered list of elements.
-	 * @param operation the operation to apply to the values in the list.
-	 * @return the result of folding the operation into the list.
+     * @param  <AV> the type of the accumulator that will be calculated by this
+     *     function.
+     * @param  <EV> the element type for each element in the input collection and 
+     *     the type of the output value.
+	 * @param  list an ordered list of elements.
+	 * @param  operation the operation to apply to the values in the list.
+	 * @return the result of folding the operation into the list, <code>null</code>
+	 *         if no elements exist in the list.
 	 */
-	public static <V> V foldLeft(final Iterable<V> list, final BinaryFunction<V,V,V> operation) {
+    @SuppressWarnings("unchecked")
+    public static <EV, AV extends EV> AV foldLeftOne(final BinaryFunction<AV, AV, EV> operation, final Iterable<EV> list) {
 		if (list == null || operation == null) {
 			return null;
 		}
-		V accumulator = null;
-		for (V value : list) {
+		AV accumulator = null;
+		for (EV value : list) {
 			if (accumulator == null) {
-				accumulator = value;
+				accumulator = (AV) value;
 			} else {
 				accumulator = operation.call(accumulator, value);
 			}
@@ -326,26 +331,39 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@link #foldLeft(List, BinaryFunction)}, however this computes an
-	 * alternate accumulated value. In this case the initial value for the 
-	 * accumulator is passed in, and the operation will therefore be provided
-	 * the current value of the accumulator and the current element value and
-	 * is expected to return a new accumulator value.
-	 * 
-	 * If either <em>collection</em> or <em>function</em> is <code>null</code>
-	 * then the function will return <code>null</code> immediately.
-	 * 
-	 * @param <AV> the type of the accumulator that will be calculated by this
+     * Return a value that is calculated by applying each element in the list,
+     * in list order, to the result of <code>foldLeft</code> for each preceding 
+     * element. For example, the application of the logical operation "plus" to the
+     * list of integers [1, 2, 3, 4, 5] is the value 15, as can be seen below:
+     * 
+     * <pre>
+     * plus(plus(plus(plus(plus(initial, 1), 2), 3), 4), 5)
+     * </pre>
+     *  
+     * This can be see also as "folding" the operation into the list, so that if 
+     * "plus" where the mathematical operator "+" then the list becomes:
+     * 
+     * <pre>
+     * 1 + 2 + 3 + 4 + 5
+     * </pre>
+     * 
+     * Note also that as this can be expressed in an entirely recursive manner 
+     * there is no need for the operation itself to maintain any state.
+     * 
+     * If either <em>collection</em> or <em>function</em> is <code>null</code>
+     * then the function will return <code>null</code> immediately.
+     * 
+	 * @param  <AV> the type of the accumulator that will be calculated by this
 	 *     function.
-	 * @param <EV> the element type for each element in the input collection and 
+	 * @param  <EV> the element type for each element in the input collection and 
 	 *     the type of the output value.
-	 * @param list
-	 * @param operation the operation to apply to the values in the list.
-	 * @param initial the initial value of the accumulator
+     * @param  list an ordered list of elements.
+	 * @param  operation the operation to apply to the values in the list.
+	 * @param  initial the initial value of the accumulator
 	 * @return the result of applying operation to the accumulator and each
 	 *     element of the list in order.
 	 */
-	public static <AV, EV> AV accumulate(final Iterable<EV> list, final BinaryFunction<AV, AV, EV> operation, AV initial) {
+	public static <EV, AV> AV foldLeft(final BinaryFunction<AV, AV, EV> operation, final AV initial, final Iterable<EV> list) {
 		if (list == null || operation == null) {
 			return null;
 		}
@@ -357,39 +375,116 @@ public class Functional {
 	}
 
 	/**
-	 * Similar to {@link #foldLeft(List, BinaryFunction)}, however this function 
-	 * folds the operator into the list from right to left rather than
-	 * from left to right. It can be shown that the two functions are 
-	 * related in the following manner:
-	 * 
-	 * <pre>
-	 * foldLeft(list, op) == foldRight(reverse(list), op)
-	 * </pre>
-	 * 
+	 * Return a value that is calculated by applying each element in the list,
+     * in reverse list order, to the result of <code>foldRight</code> for each preceding 
+     * element. For example, the application of the logical operation "plus" to the
+     * list of integers [1, 2, 3, 4, 5] is the value 15, as can be seen below:
+     * 
+     * <pre>
+     * plus(plus(plus(plus(plus(initial, 5), 4), 3), 2), 1)
+     * </pre>
+     *  
+     * This can be see also as "folding" the operation into the list, so that if 
+     * "plus" where the mathematical operator "+" then the list becomes:
+     * 
+     * <pre>
+     * initial  + 5 + 4 + 3 + 2 + 1
+     * </pre>
+     * 
+     * Note also that as this can be expressed in an entirely recursive manner 
+     * there is no need for the operation itself to maintain any state.
+     * 
+     * It can be shown that the two functions are 
+     * related in the following manner:
+     * 
+     * <pre>
+     * foldLeft(list, op) == foldRight(reverse(list), op)
+     * </pre>
+     * 
+     * If either <em>collection</em> or <em>function</em> is <code>null</code>
+     * then the function will return <code>null</code> immediately.
+     * 
 	 * If either <em>collection</em> or <em>function</em> is <code>null</code>
 	 * then the function will return <code>null</code> immediately.
 	 * 
-	 * @param <V> the element type for each element in the input collection and 
-	 *     the type of the output value. 
-	 * @param list an ordered list of elements.
-	 * @param operation the operation to apply to the values in the list.
+     * @param  <AV> the type of the accumulator that will be calculated by this
+     *     function.
+     * @param  <EV> the element type for each element in the input collection and 
+     *     the type of the output value.
+	 * @param  operation the operation to apply to the values in the list.
+     * @param  list an ordered list of elements.
 	 * @return the result of folding the operation into the list.
 	 */
-	public static <V> V foldRight(final List<V> list, final BinaryFunction<V,V,V> operation) {
+    @SuppressWarnings("unchecked")
+    public static <EV, AV extends EV> AV foldRightOne(final BinaryFunction<AV, AV, EV> operation, final List<EV> list) {
 		if (list == null || operation == null) {
 			return null;
 		}
-		V accumulator = null;
+		AV accumulator = null;
 		for (int i = list.size()-1; i >= 0; i--) {
-			final V value = list.get(i);
+			final EV value = list.get(i);
 			if (accumulator == null) {
-				accumulator = value;
+				accumulator = (AV)value;
 			} else {
 				accumulator = operation.call(accumulator, value);
 			}
 		}
 		return accumulator;
 	}
+
+    /**
+     * Return a value that is calculated by applying each element in the list,
+     * in reverse list order, to the result of <code>foldRight</code> for each preceding 
+     * element. For example, the application of the logical operation "plus" to the
+     * list of integers [1, 2, 3, 4, 5] is the value 15, as can be seen below:
+     * 
+     * <pre>
+     * plus(plus(plus(plus(plus(initial, 5), 4), 3), 2), 1)
+     * </pre>
+     *  
+     * This can be see also as "folding" the operation into the list, so that if 
+     * "plus" where the mathematical operator "+" then the list becomes:
+     * 
+     * <pre>
+     * initial  + 5 + 4 + 3 + 2 + 1
+     * </pre>
+     * 
+     * Note also that as this can be expressed in an entirely recursive manner 
+     * there is no need for the operation itself to maintain any state.
+     * 
+     * It can be shown that the two functions are 
+     * related in the following manner:
+     * 
+     * <pre>
+     * foldLeft(list, op) == foldRight(reverse(list), op)
+     * </pre>
+     * 
+     * If either <em>collection</em> or <em>function</em> is <code>null</code>
+     * then the function will return <code>null</code> immediately.
+     * 
+     * If either <em>collection</em> or <em>function</em> is <code>null</code>
+     * then the function will return <code>null</code> immediately.
+     * 
+     * @param  <AV> the type of the accumulator that will be calculated by this
+     *     function.
+     * @param  <EV> the element type for each element in the input collection and 
+     *     the type of the output value.
+     * @param  operation the operation to apply to the values in the list.
+     * @param  initial the initial value of the accumulator
+     * @param  list an ordered list of elements.
+     * @return the result of folding the operation into the list.
+     */
+    public static <EV, AV> AV foldRight(final BinaryFunction<AV, AV, EV> operation, final AV initial, final List<EV> list) {
+        if (list == null || operation == null) {
+            return null;
+        }
+        AV accumulator = initial;
+        for (int i = list.size()-1; i >= 0; i--) {
+            final EV value = list.get(i);
+            accumulator = operation.call(accumulator, value);
+        }
+        return accumulator;
+    }
 
 	/**
 	 * "zip together" two lists, or in fact in the case <em>N</em> lists into
