@@ -151,7 +151,7 @@ public class MapTests {
 	public void testBeanItemList() {
 	    Person person = makePerson();
 	    final List<Pair<String, Object>> pairs = Maps.beanItems(person);
-	    assertEquals(6, pairs.size());
+	    assertEquals(5, pairs.size());
 	}
 	
     @Test
@@ -163,13 +163,13 @@ public class MapTests {
     public void testBeanItemMap() {
         Person person = makePerson();
         final Map<String, Object> map = Maps.beanMap(person);
-        assertEquals(6, map.size());
+        assertEquals(5, map.size());
         assertEquals("simonjo", map.get("name"));
         assertEquals("author", map.get("title"));
         assertEquals("here", map.get("address"));
         assertEquals("555-555-5555", map.get("phone"));
         assertEquals(Integer.valueOf(99), map.get("age"));
-        assertEquals(Person.class, map.get("class"));
+//        assertEquals(Person.class, map.get("class"));
     }
     
     @Test
