@@ -1,0 +1,11 @@
+# Introduction #
+
+This is a complete implementation of the OSGi LogService and LogReaderService using the JDK 1.4 logging API.
+
+# Details #
+
+The service maintains an in-memory log containing the last _n_ entries (where this number is configurable as a service property) as well as enabling console and file login. The LogListener service is implemented to provide a log reader (tested with the Equinox console "log" command and the Apache Felix web console) as well as supporting LogListeners.
+
+# Status #
+
+Currently the LogService works, the LogReaderService can enumerate the log contents and does support listeners. The JDK logger does emit to the console, but not to a file as yet.

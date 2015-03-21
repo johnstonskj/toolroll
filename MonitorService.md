@@ -1,0 +1,18 @@
+# Introduction #
+
+This service can be used to add _monitors_ to bundles and services to enable remote access to counters and statistics for services. The main service allows for the creation and removal of individual monitors, a listener service allows clients to detect the addition and removal of monitors as well as, in some cases, updates to monitors.
+
+# Details #
+
+A monitor is a named value that provides insight into the behavior of a bundle or service. Specifically a monitor can be one of:
+
+  * Counter - discrete count of actions such as page hits, size of cache, etc.
+  * Statistic - maintains a value over time providing min, max and average values.
+  * Timer Statistic - similar to a statistic but instead of dealing with numeric values it deals in durations.
+
+The bundle provides:
+
+  * The monitor service itself to create and remove monitors and to enumerate existing monitors.
+  * The monitor listener service to allow clients to detect new monitors and removal of monitors.
+  * A command provider to allow enumeration of monitors from the OSGi shell.
+  * A Servlet that will be registered if there is an available Http Service and can emit the monitor data as JSON data for remote monitoring tools.
